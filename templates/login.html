@@ -3,25 +3,20 @@
     <form class="in-form" action="" method="POST">
         <h2 class="form-header"> Login page </h2>
         {{ form.hidden_tag() }}
-        
+
         {% if form.username.errors %}
-            {{ form.username(class="in invalid-field", placeholder="Username", autocomplete="off") }}
-            {% for error in form.username.errors %}
-                <div class="field-error">{{ error }}</div>
-            {% endfor%}
+            {{ form.username(class="in", placeholder="Username", autocomplete="off") }}
+            {{ form.password(class="in", placeholder="Password", autocomplete="off") }}
+            <div class="field-error">{{ form.username.errors[0] }}</div>
+        {% elif form.password.errors %}
+            {{ form.username(class="in", placeholder="Username", autocomplete="off") }}
+            {{ form.password(class="in", placeholder="Password", autocomplete="off") }}
+            <div class="field-error">{{ form.password.errors[0] }}</div>
         {% else %}
             {{ form.username(class="in", placeholder="Username", autocomplete="off") }}
-        {% endif %}
-        
-        {% if form.password.errors %}
-            {{ form.password(class="in invalid-field", placeholder="Password", autocomplete="off") }}
-            {% for error in form.password.errors %}
-                <div class="field-error">{{ error }}</div>
-            {% endfor%}
-        {% else %}
             {{ form.password(class="in", placeholder="Password", autocomplete="off") }}
-        {% endif %}
-
+        {% endif%}
+        
         {{ form.submit(class="submit-btn") }}
         <a class="form-link" href="/register"> Sign-Up </a>
     </form>

@@ -6,36 +6,28 @@
         
         {% if form.username.errors %}
             {{ form.username(class="in invalid-field", placeholder="Username", autocomplete="off") }}
-            {% for error in form.username.errors %}
-                <div class="field-error">{{ error }}</div>
-            {% endfor%}
+            <div class="field-error">{{ form.username.errors[0] }}</div>
         {% else %}
             {{ form.username(class="in", placeholder="Username", autocomplete="off") }}
         {% endif %}
         
         {% if form.email.errors %}
             {{ form.email(class="in invalid-field", placeholder="Email", autocomplete="off") }}
-            {% for error in form.email.errors %}
-                <div class="field-error">{{ error }}</div>
-            {% endfor%}
+            <div class="field-error">{{ form.email.errors[0] }}</div>
         {% else %}
             {{ form.email(class="in", placeholder="Email", autocomplete="off") }}
         {% endif %}
         
         {% if form.password.errors %}
             {{ form.password(class="in invalid-field", placeholder="Password", autocomplete="off") }}
-            {% for error in form.password.errors %}
-                <div class="field-error">{{ error }}</div>
-            {% endfor%}
+            <div class="field-error">{{ form.password.errors[0] }}</div>
         {% else %}
             {{ form.password(class="in", placeholder="Password", autocomplete="off") }}
         {% endif %}
         
         {% if form.comfirm_password.errors %}
             {{ form.comfirm_password(class="in invalid-field", placeholder="Comfirm Password", autocomplete="off") }}
-            {% for error in form.comfirm_password.errors %}
-                <div class="field-error">{{ error }}</div>
-            {% endfor%}
+            <div class="field-error">{{ form.comfirm_password.errors[0] }}</div>
         {% else %}
             {{ form.comfirm_password(class="in", placeholder="comfirm_password", autocomplete="off") }}
         {% endif %}

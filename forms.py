@@ -3,30 +3,60 @@ from wtforms.fields import StringField, PasswordField, SubmitField, TextAreaFiel
 from wtforms.validators import DataRequired, Length, Email, EqualTo, ValidationError
 import re
 
-len_mes = "Длина имени должна быть в диапазоне от 4 до 33 символов"
-equal_mes = "Повторите пароль ещё раз"
-required_mes = "Это поле должно быть заполнено"
+
+required_mes = "Это поле дожно быть заполнено"
+pas_equel_mes = "Повторите пароль ещё раз"
 
 class RegisterForm(FlaskForm):
-    username = StringField('Username', validators=[DataRequired(message=required_mes), Length(min=4, max=33, message=len_mes)])
-    email = StringField('Email', validators=[DataRequired(message=required_mes), Email(), Length(min=4, max=255, message=len_mes)])
-    password = PasswordField('Password', validators=[DataRequired(message=required_mes), Length(min=4, max=33, message=len_mes)])
-    comfirm_password = PasswordField('Comfirm Password', validators=[DataRequired(), EqualTo('password', message=equal_mes), Length(min=4, max=33, message=len_mes)])
+    username = StringField('Username', validators=[DataRequired(message=required_mes)])
+    email = StringField('Email', validators=[DataRequired(message=required_mes), Email(message='Некорректная почта')])
+    password = PasswordField('Password', validators=[DataRequired(message=required_mes)])
+    comfirm_password = PasswordField('Comfirm Password', validators=[DataRequired(), EqualTo('password', message=pas_equel_mes)])
     submit = SubmitField('Submit')
 
     def validate_username(self, username):
-        if not re.fullmatch(r"[^\s\*\?\!\'\^\+\&amp;\/\(\)\=\}\]\[\{\$]*", username):
-            raise ValidationError("Имя пользователя содержит запрещённые символы")
+        if not re.fullmatch(r"\w*", username.data):
+            raise ValidationError("Имя пользователя может состоять только из букв и цифр")
+        elif len(username.data) <= 3:
+            raise ValidationError("Имя пользователя слишком короткое")
+        elif len(username.data) >= 37:
+            raise ValidationError("Имя пользователя слишком длинное")
 
     def validate_password(self, password):
-        if not re.fullmatch(r"[^\s\*\?\!\'\^\+\&amp;\/\(\)\=\}\]\[\{\$]*", password):
-            raise ValidationError("Пароль содержит запрещённые символы")
+        if not re.fullmatch(r"[\w%]*", password.data):
+            raise ValidationError("Пароль содержит зарещённые символы")
+        elif len(password.data) <= 5:
+            raise ValidationError("Пароль слишком короткий")
+        elif len(password.data) >= 255:
+            raise ValidationError("Пароль слишком длинный")
+
+    def validate_email(self, email):
+        if len(email.data) <= 3:
+            raise ValidationError("Почта слишком короткая")
+        elif len(email.data) >= 255:
+            raise ValidationError("Почта слишком длинная")
 
 
 class LoginForm(FlaskForm):
-    username = StringField('Username', validators=[DataRequired(message=required_mes), Length(min=4, max=33, message=len_mes)])
-    password = PasswordField('Password',  validators=[DataRequired(message=required_mes), Length(min=4, max=33, message=len_mes)])
+    username = StringField('Username', validators=[DataRequired(message=required_mes)])
+    password = PasswordField('Password',  validators=[DataRequired(message=required_mes)])
     submit = SubmitField('Submit')
+
+    def validate_username(self, username):
+        if not re.fullmatch(r"\w*", username.data):
+            raise ValidationError("Неправильные логин или пароль")
+        elif len(username.data) <= 3:
+            raise ValidationError("Неправильные логин или пароль")
+        elif len(username.data) >= 37:
+            raise ValidationError("Неправильные логин или пароль")
+
+    def validate_password(self, password):
+        if not re.fullmatch(r"[\w%]*", password.data):
+            raise ValidationError("Неправильные логин или пароль")
+        elif len(password.data) <= 5:
+            raise ValidationError("Неправильные логин или пароль")
+        elif len(password.data) >= 255:
+            raise ValidationError("Неправильные логин или пароль")
 
 
 class PostForm(FlaskForm):
