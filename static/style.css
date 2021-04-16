@@ -1,0 +1,202 @@
+/*Global settings*/
+
+body {
+    margin: 0;
+    font-size: 15px;
+}
+
+h1, h2, h3, h4, p {
+    margin: 0;
+}
+
+*, *::after, *::before {
+    box-sizing: border-box;
+}
+
+
+/*Header*/
+
+.head {
+    padding: 10px;
+    width: 100%;
+    
+    box-shadow: 0 0px 30px rgba(28, 34, 42, 0.18);
+    
+    display: flex;
+    position: fixed;
+    
+    z-index: 100px;;
+    
+    justify-content: space-between;
+}
+
+.header-img {
+    height: auto;
+    margin: 0 10px;
+    vertical-align: middle;
+}
+
+.profile-img {
+    margin: 5px 15px;
+    margin-right: 20px;
+}
+
+
+/*Main*/
+
+.empty {
+    height: 100px;
+}
+
+.page {
+    width: 60%;
+    min-width: 180px;
+    
+    margin: 0 auto;
+    padding: 45px;
+}
+
+
+/*Index-page*/
+
+.posts-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+}
+
+.post {
+    flex: 0 0 360px;
+    
+    border-radius: 2em;
+    margin: 2em;
+    padding: 1.5em;
+    
+    box-shadow: 0 2px 30px rgba(28, 34, 42, 0.18);
+    
+}
+
+.post-header {
+    text-align: center;
+    margin: 10px;
+    font-size: 24px;
+}
+
+.post-author {
+    display: block;
+    text-align: left;
+    margin: 10px;
+    margin-left: 5px;
+    font-size: 18px;
+    font-weight: 600;
+}
+
+.post-description {
+    text-align: left;
+}
+
+
+/*Login-page/Registration page*/
+
+
+.in-form {
+    max-width: 450px;
+    min-width: 180px;
+    
+    margin: 0 auto;
+    padding: 2em;
+    
+    border-radius: 2em;
+    box-shadow: 0 6px 20px rgba(28, 34, 42, 0.18);
+    
+    color: #495959;
+}
+
+.form-header {
+    text-align: center;
+    margin-bottom: 24px;
+}
+
+
+.in {
+    width: 100%;
+    height: 40px;
+    
+    margin-bottom: 24px;
+    padding: 20px;
+    
+    border-radius: 2em;
+    box-shadow: 0px 4px 15px rgba(28, 34, 42, 0.18);
+    border: none;
+    
+    color: #495959;
+    
+    outline: none;
+}
+
+.in:focus {
+    border: 1px solid #2ae2be;
+    box-shadow: 0px 2px 12px rgba(28, 34, 42, 0.315);
+}
+
+
+.in::placeholder {
+    color: #aaa;
+    font-size: 14px;
+}
+
+.submit-btn {
+    display: block;
+    
+    margin: 15px auto;
+    width: 72%;
+    height: 50px;
+    
+    background-color: #2ae2be;
+    padding: 10px;
+    border-radius: 2em;
+    border: none;
+    outline: none;
+    
+    color: white;
+    font-size: 15px;
+    font-weight: bold;
+}
+
+.submit-btn:hover {
+    cursor: pointer;
+    background-color: #3dd1b4;
+}
+
+.form-link {
+    display: block;
+    margin: 0 auto;
+    text-align: center;
+    width: 100px;
+    color: #2ae2be;
+}
+
+.form-link:hover {
+    cursor: pointer;
+    color: #495959;
+}
+
+.invalid-field{
+    border: 1px solid #ef4c14;
+    color: #ef4c14;
+}
+.invalid-field::placeholder {
+    color: #ef4c14;
+}      
+
+.field-error{
+    color: #ef4c14;
+    position: relative;
+    bottom: 10px;
+    left: 20px;
+    font-weight: bold;
+}
+
+
+
+

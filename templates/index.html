@@ -1,0 +1,14 @@
+{% extends 'layout.html' %}
+{% block content%}
+    <div class="posts-container">
+    {% for post in posts %}
+        <div class="post">
+            <h3 class="post-header">{{ post['name'] }}</h3>
+            <span class="post-author">{{ post['author'] }}</span>
+            <p class="post-description">{{ post['description'] }}</p>
+        </div>
+    {% endfor %}
+    </div>
+{% endblock %}
+
+

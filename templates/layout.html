@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>layout is working</title>
+        <link rel="stylesheet" type="text/css" href="{{ url_for( 'static', filename='style.css', v=11) }}">
+    </head>
+    <body>
+        <header class="head">
+            <a href="/"><img class="header-img" src="{{ url_for( 'static', filename='Pblog-logo.svg' )}}" width="50px"></a>
+            <div><img class="header-img" src="{{ url_for( 'static', filename='Pblog-search.svg' )}}" width="30px">
+            <a href="/login"><img class="header-img profile-img" src="{{ url_for( 'static', filename='Pblog-user.svg' )}}" width="30px"></a>
+            </div>
+        </header>
+        <div class="empty"></div>
+        <main class="page">
+            {% block content%}{% endblock %}
+        </main>
+    </body>
+</html>
