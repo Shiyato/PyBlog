@@ -10,10 +10,10 @@ app.config["SQLALCHEMY_DATABASE_URI"] = 'mysql+pymysql://developer:BqEDaSnPv9G0G
 
 # Mail configuration
 app.config["MAIL_SERVER"] = 'smtp.gmail.com'
-app.config["MAIL_PORT"] = '465'
 app.config["MAIL_USE_TSL"] = 'True'
 app.config["MAIL_USE_SSL"] = 'True'
-app.config["MAIL_USERNAME"] = os.environ.get('MAIL_USERNAME')
-app.config["MAIL_PASSWORD"] = os.environ.get('MAIL_PASSWORD')
+app.config["MAIL_PORT"] = '465'
+app.config["MAIL_USERNAME"] = 'zhdanov.ph@gmail.com' #FIXME Так делать нельзя, но я заебусь заданием переменных для виртульного окружения
+app.config["MAIL_PASSWORD"] = 'iPRZtatiY33%' #FIXME Так делать нельзя, но я заебусь заданием переменных для виртульного окружения
 
 
