@@ -1,0 +1,31 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<htlm>
+    <head>
+    </head>
+    <body>
+        <table style="font-family: Arial, Helvetica, sans-serif">
+            <tr>
+                <td>{{ body_header }}</td>
+            </tr>
+            <tr>
+                <td>{{ letter_conent }}</td>
+            </tr>
+            <tr>
+                <td>Site adress</td>
+            </tr>
+        </table>
+    </body>
+</htlm>
+
+
+<!--<table style="font-family: Arial, Helvetica, sans-serif">
+            <tr>
+                <th>Hello, it's Py-blog</th>
+            </tr>
+            <tr>
+                <td>Thanks for register on our site!</td>
+            </tr>
+            <tr>
+                <td>site adress</td>
+            </tr>
+        </table>

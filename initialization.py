@@ -15,5 +15,6 @@ app.config["MAIL_USE_SSL"] = 'True'
 app.config["MAIL_PORT"] = '465'
 app.config["MAIL_USERNAME"] = 'zhdanov.ph@gmail.com' #FIXME Так делать нельзя, но я заебусь заданием переменных для виртульного окружения
 app.config["MAIL_PASSWORD"] = 'iPRZtatiY33%' #FIXME Так делать нельзя, но я заебусь заданием переменных для виртульного окружения
-
+app.config["MAIL_SENDER"] = app.config["MAIL_USERNAME"]
+app.config["MAIL_LETTER_PREFIX"] = 'Py-blog - '
 
