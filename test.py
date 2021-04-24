@@ -8,5 +8,3 @@ msg.body = 'text body'
 msg.html = '<b>HTML</b> body'
 with app.app_context():
     mail.send(msg)
-
-
