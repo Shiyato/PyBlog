@@ -10,7 +10,7 @@ class Users(db.Model):
     username = db.Column(db.String(30), unique=True, nullable=False)
     email = db.Column(db.String(240), unique=True, nullable=False)
     password = db.Column(db.String(60), nullable=False)
-    posts = db.relationship('Posts', backref='user', lazy=True)
+    posts = db.relationship('Posts', backref='users', lazy=True)
 
     def __repr__(self):
         return f"User({self.username}, {self.email}, {self.password})"
