@@ -1,12 +1,18 @@
 from flask import Flask
 from flask_script import Manager
+from flask_login import LoginManager
 import os
 
 app = Flask(__name__)
 manager = Manager(app)
 
+login_manager = LoginManager()
+login_manager.session_protection = 'strong'
+login_manager.login_view = '/login'
+
+
 app.config["SECRET_KEY"] = 'super-duper-secret-ultra-key-2000'
-app.config["SQLALCHEMY_DATABASE_URI"] = 'mysql+pymysql://developer:BqEDaSnPv9G0GtWD@localhost:8889/college'
+app.config["SQLALCHEMY_DATABASE_URI"] = 'mysql+pymysql://developer:password@localhost:8889/college'
 
 # Mail configuration
 app.config["MAIL_SERVER"] = 'smtp.gmail.com'
