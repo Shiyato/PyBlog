@@ -1,7 +1,7 @@
 {% extends 'layout.html' %}
 {% block content %}
     <form class="in-form" method="POST" action="">
-        <h2 class="form-header"> Registration page </h2>
+        <h2 class="form-header"></h2>
         {{ form.hidden_tag() }}
         
         {% if form.username.errors %}
@@ -29,10 +29,10 @@
             {{ form.comfirm_password(class="in invalid-field", placeholder="Comfirm Password", autocomplete="off") }}
             <div class="field-error">{{ form.comfirm_password.errors[0] }}</div>
         {% else %}
-            {{ form.comfirm_password(class="in", placeholder="comfirm_password", autocomplete="off") }}
+            {{ form.comfirm_password(class="in", placeholder="Comfirm Password", autocomplete="off") }}
         {% endif %}
         
         {{ form.submit(class="submit-btn") }}
-        <a class="form-link" href="/login"> Log-In </a>
+        <a class="form-link" href="/login"> Войти </a>
     </form>
 {% endblock %}

@@ -197,6 +197,16 @@ h1, h2, h3, h4, p {
     font-weight: bold;
 }
 
+.form-checkbox{
+    vertical-align: middle;
+}
+
+.remember {
+    margin: 8px 0 25px 15px;
+    font-size: 17px;
+}
+
+
 
 
 

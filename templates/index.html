@@ -5,7 +5,7 @@
         <div class="post">
             <h3 class="post-header">{{ post['title'] }}</h3>
             <span class="post-author">{{ User.query.get(post['user_id'])['username'] }}</span>
-            <span class="post-date">{{ post['postdate'] }}</span>
+            <span class="post-date">{{ time_format(post['postdate']) }}</span>
             <p class="post-description">{{ post['content'] }}</p>
         </div>
     {% endfor %}

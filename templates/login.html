@@ -1,23 +1,28 @@
 {% extends 'layout.html' %}
 {% block content %}
     <form class="in-form" action="" method="POST">
-        <h2 class="form-header"> Login page </h2>
+        <h2 class="form-header"></h2>
         {{ form.hidden_tag() }}
 
         {% if form.username.errors %}
-            {{ form.username(class="in", placeholder="Username", autocomplete="off") }}
-            {{ form.password(class="in", placeholder="Password", autocomplete="off") }}
+            {{ form.username(class="in", placeholder="Имя пользователя", autocomplete="off") }}
+            {{ form.password(class="in", placeholder="Пароль", autocomplete="off") }}
             <div class="field-error">{{ form.username.errors[0] }}</div>
         {% elif form.password.errors %}
-            {{ form.username(class="in", placeholder="Username", autocomplete="off") }}
-            {{ form.password(class="in", placeholder="Password", autocomplete="off") }}
+            {{ form.username(class="in", placeholder="Имя пользователя", autocomplete="off") }}
+            {{ form.password(class="in", placeholder="Пароль", autocomplete="off") }}
             <div class="field-error">{{ form.password.errors[0] }}</div>
         {% else %}
-            {{ form.username(class="in", placeholder="Username", autocomplete="off") }}
-            {{ form.password(class="in", placeholder="Password", autocomplete="off") }}
+            {{ form.username(class="in", placeholder="Имя пользователя", autocomplete="off") }}
+            {{ form.password(class="in", placeholder="Пароль", autocomplete="off") }}
         {% endif%}
         
+        <div class="remember">
+            {{ form.remember.label(class="form-checkbox-label") }}
+            {{ form.remember(class="form-checkbox") }}
+        </div>
+        
         {{ form.submit(class="submit-btn") }}
-        <a class="form-link" href="/register"> Sign-Up </a>
+        <a class="form-link" href="/register"> Регистрация </a>
     </form>
-{% endblock %}
+{% endblock %}s

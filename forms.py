@@ -1,5 +1,5 @@
 from flask_wtf import FlaskForm
-from wtforms.fields import StringField, PasswordField, SubmitField, TextAreaField
+from wtforms.fields import StringField, PasswordField, SubmitField, TextAreaField, BooleanField
 from wtforms.validators import DataRequired, Length, Email, EqualTo, ValidationError
 import re
 
@@ -8,11 +8,11 @@ required_mes = "Это поле дожно быть заполнено"
 pas_equel_mes = "Повторите пароль ещё раз"
 
 class RegisterForm(FlaskForm):
-    username = StringField('Username', validators=[DataRequired(message=required_mes)])
-    email = StringField('Email', validators=[DataRequired(message=required_mes), Email(message='Некорректная почта')])
-    password = PasswordField('Password', validators=[DataRequired(message=required_mes)])
-    comfirm_password = PasswordField('Comfirm Password', validators=[DataRequired(), EqualTo('password', message=pas_equel_mes)])
-    submit = SubmitField('Submit')
+    username = StringField('Имя пользователя', validators=[DataRequired(message=required_mes)])
+    email = StringField('Почта', validators=[DataRequired(message=required_mes), Email(message='Некорректная почта')])
+    password = PasswordField('Пароль', validators=[DataRequired(message=required_mes)])
+    comfirm_password = PasswordField('Пароль ещё раз', validators=[DataRequired(), EqualTo('password', message=pas_equel_mes)])
+    submit = SubmitField('Регистрация')
 
     def validate_username(self, username):
         if not re.fullmatch(r"\w*", username.data):
@@ -38,9 +38,10 @@ class RegisterForm(FlaskForm):
 
 
 class LoginForm(FlaskForm):
-    username = StringField('Username', validators=[DataRequired(message=required_mes)])
-    password = PasswordField('Password',  validators=[DataRequired(message=required_mes)])
-    submit = SubmitField('Submit')
+    username = StringField('Имя пользователя', validators=[DataRequired(message=required_mes)])
+    password = PasswordField('Пароль',  validators=[DataRequired(message=required_mes)])
+    remember = BooleanField('Запомнить меня')
+    submit = SubmitField('Войти')
 
     def validate_username(self, username):
         if not re.fullmatch(r"\w*", username.data):

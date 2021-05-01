@@ -4,13 +4,17 @@ from forms import LoginForm, RegisterForm
 from initialization import app, manager, login_manager
 from db_models import db, User, Post
 from werkzeug.security import generate_password_hash, check_password_hash
-from flask_login import login_required
+from flask_login import login_required, login_user
+from func import time_format
 
+@login_manager.user_loader
+def load_user(user_id):
+    return User.query.get(int(user_id))
 
 @app.route('/')
 def index():
     posts = Post.query.all()
-    return render_template('index.html', posts=posts, User=User)
+    return render_template('index.html', posts=posts, User=User, time_format=time_format)
 
 
 @app.route('/login', methods=['POST', 'GET'])
@@ -19,9 +23,10 @@ def login():
     if form.validate_on_submit():
         username = form.username.data
         password = form.password.data
-        usr = User.query.filter(User.username == username).all()
+        usr = User.query.filter(User.username == username).first()
         if usr:
-            if check_password_hash(usr[0].password, password):
+            if check_password_hash(usr.password, password):
+                login_user(usr)
                 return render_template('sucsses.html', username=username)
             else:
                 return render_template('login.html', form=form)
@@ -56,6 +61,7 @@ def register():
 @login_required
 def profile():
     return render_template('user.html', username="none")
+
 
 migrate = Migrate(app, db)
 manager.add_command('db', MigrateCommand)
