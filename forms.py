@@ -1,11 +1,23 @@
 from flask_wtf import FlaskForm
 from wtforms.fields import StringField, PasswordField, SubmitField, TextAreaField, BooleanField
 from wtforms.validators import DataRequired, Length, Email, EqualTo, ValidationError
+from langdetect import detect, detect_langs
 import re
-
 
 required_mes = "Это поле дожно быть заполнено"
 pas_equel_mes = "Повторите пароль ещё раз"
+
+#Список запрещённых слов для проверки текста на нецензурную лексику.
+forbidden_words = ['arse','ass','ballsack','bastard','bitch','biatch',
+                   'bloody','blowjob','bollock','bollok','boner','boob','bugger',
+                   'bum','butt','clitor','cock','coon','crap','cunt','damn','dick',
+                   'dyke','fag','feck','fellatio','felching','fuck','fudge',
+                   'flange','hell','homo','jerk','jizz','knob',
+                   'labia','lmao','lmfao','muff','nigga','omg','penis','piss','poop',
+                   'prick','pube','pussy','queer','scrotum','shit','slut',
+                   'smegma','spunk','tit','tosser','turd','twat','wank','whore','wtf',
+                   'хуй','пизд','бля','еба']
+
 
 class RegisterForm(FlaskForm):
     username = StringField('Имя пользователя', validators=[DataRequired(message=required_mes)])
@@ -21,6 +33,13 @@ class RegisterForm(FlaskForm):
             raise ValidationError("Имя пользователя слишком короткое")
         elif len(username.data) >= 37:
             raise ValidationError("Имя пользователя слишком длинное")
+        elif detect(username) != 'en' or len(detect_langs(username)) > 1:
+            raise ValidationError("Имя пользователя может содержать буквы только английского алфавита")
+        else:
+            for el in forbidden_words:
+                if el in username:
+                    raise ValidationError("Имя пользователя содержит нецензурную лексику")
+                    break
 
     def validate_password(self, password):
         if not re.fullmatch(r"[\w%]*", password.data):

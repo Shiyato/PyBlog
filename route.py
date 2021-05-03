@@ -2,7 +2,7 @@ from flask import render_template, url_for, request, redirect
 from flask_migrate import Migrate, MigrateCommand
 from forms import LoginForm, RegisterForm
 from initialization import app, manager, login_manager
-from db_models import db, User, Post
+from db_models import db, User, Post, update_table, make_role
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask_login import login_required, login_user
 from func import time_format
@@ -61,6 +61,14 @@ def register():
 @login_required
 def profile():
     return render_template('user.html', username="none")
+
+@manager.command
+def uptable(table:str, id_column:str, id_column_value:str, conditions=None, **column_value):
+    update_table(table, column_value, id_column, id_column_value, conditions)
+
+@manager.command
+def makerole(usernames, role, conditions=None):
+    make_role(usernames, role, conditions)
 
 
 migrate = Migrate(app, db)
