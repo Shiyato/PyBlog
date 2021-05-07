@@ -20,12 +20,8 @@ def timedelta_to_datetime(delta):
 
 def time_format(time:datetime):
     now = datetime.utcnow()
-    print('now', now)
-    print('time', time)
     delta = now - time
-    print('delta', delta)
     delta = timedelta_to_datetime(delta)
-    print('delta', delta)
 
     def word_form(num:int):
         rt = 0
@@ -44,31 +40,31 @@ def time_format(time:datetime):
         if delta['year']:
             n = delta['year']
             form = ('год', 'года', 'лет')
-            rt = f'{n} {form[word_form(n) - 1]} назад'
+            rt = f'{n} {form[word_form(n) - 1]}'
         elif delta['month']:
             n = delta['month']
             form = ('месяц', 'месяца', 'месяцев')
-            rt = f'{n} {form[word_form(n) - 1]} назад'
+            rt = f'{n} {form[word_form(n) - 1]}'
         elif delta['day'] >= 7:
             n = delta['day'] // 7
             form = ('неделя', 'недели', 'недель')
-            rt = f'{n} {form[word_form(n) - 1]} назад'
+            rt = f'{n} {form[word_form(n) - 1]}'
         else:
             n = delta['day']
             form = ('день', 'дня', 'дней')
-            rt = f'{n} {form[word_form(n) - 1]} назад'
+            rt = f'{n} {form[word_form(n) - 1]}'
     else:
         if delta['hour']:
             n = delta['hour']
             form = ('час', 'часа', 'часов')
-            rt = f'{n} {form[word_form(n) - 1]} назад'
+            rt = f'{n} {form[word_form(n) - 1]}'
         elif delta['minute']:
             n = delta['minute']
             form = ('минута', 'минуты', 'минут')
-            rt = f'{n} {form[word_form(n) - 1]} назад'
+            rt = f'{n} {form[word_form(n) - 1]}'
         else:
             n = delta['second']
             form = ('секунда', 'секунды', 'секунд')
-            rt = f'{n} {form[word_form(n) - 1]} назад'
+            rt = f'{n} {form[word_form(n) - 1]}'
 
     return rt

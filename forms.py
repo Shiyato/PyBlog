@@ -1,22 +1,12 @@
 from flask_wtf import FlaskForm
 from wtforms.fields import StringField, PasswordField, SubmitField, TextAreaField, BooleanField
 from wtforms.validators import DataRequired, Length, Email, EqualTo, ValidationError
-from langdetect import detect, detect_langs
+from db_models import User
 import re
+
 
 required_mes = "Это поле дожно быть заполнено"
 pas_equel_mes = "Повторите пароль ещё раз"
-
-#Список запрещённых слов для проверки текста на нецензурную лексику.
-forbidden_words = ['arse','ass','ballsack','bastard','bitch','biatch',
-                   'bloody','blowjob','bollock','bollok','boner','boob','bugger',
-                   'bum','butt','clitor','cock','coon','crap','cunt','damn','dick',
-                   'dyke','fag','feck','fellatio','felching','fuck','fudge',
-                   'flange','hell','homo','jerk','jizz','knob',
-                   'labia','lmao','lmfao','muff','nigga','omg','penis','piss','poop',
-                   'prick','pube','pussy','queer','scrotum','shit','slut',
-                   'smegma','spunk','tit','tosser','turd','twat','wank','whore','wtf',
-                   'хуй','пизд','бля','еба']
 
 
 class RegisterForm(FlaskForm):
@@ -24,7 +14,7 @@ class RegisterForm(FlaskForm):
     email = StringField('Почта', validators=[DataRequired(message=required_mes), Email(message='Некорректная почта')])
     password = PasswordField('Пароль', validators=[DataRequired(message=required_mes)])
     comfirm_password = PasswordField('Пароль ещё раз', validators=[DataRequired(), EqualTo('password', message=pas_equel_mes)])
-    submit = SubmitField('Регистрация')
+    submit = SubmitField('Создать аккаунт')
 
     def validate_username(self, username):
         if not re.fullmatch(r"\w*", username.data):
@@ -33,13 +23,10 @@ class RegisterForm(FlaskForm):
             raise ValidationError("Имя пользователя слишком короткое")
         elif len(username.data) >= 37:
             raise ValidationError("Имя пользователя слишком длинное")
-        elif detect(username) != 'en' or len(detect_langs(username)) > 1:
+        elif not re.fullmatch(r'[\da-zA-Z]*', username.data):
             raise ValidationError("Имя пользователя может содержать буквы только английского алфавита")
-        else:
-            for el in forbidden_words:
-                if el in username:
-                    raise ValidationError("Имя пользователя содержит нецензурную лексику")
-                    break
+        elif User.query.filter(User.username == username.data).first():
+            raise ValidationError("Пользователь с таким именем уже существует")
 
     def validate_password(self, password):
         if not re.fullmatch(r"[\w%]*", password.data):
@@ -54,6 +41,9 @@ class RegisterForm(FlaskForm):
             raise ValidationError("Почта слишком короткая")
         elif len(email.data) >= 255:
             raise ValidationError("Почта слишком длинная")
+        elif User.query.filter(User.email == email.data).first():
+            raise ValidationError("Пользователь с такой почтой уже существует")
+
 
 
 class LoginForm(FlaskForm):

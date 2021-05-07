@@ -1,35 +1,35 @@
 {% extends 'layout.html' %}
 {% block content %}
     <form class="in-form" method="POST" action="">
-        <h2 class="form-header"></h2>
+        <h2 class="form-header">Регистрация</h2>
         {{ form.hidden_tag() }}
         
         {% if form.username.errors %}
-            {{ form.username(class="in invalid-field", placeholder="Username", autocomplete="off") }}
+            {{ form.username(class="in invalid-field", placeholder="Имя пользователя", autocomplete="off") }}
             <div class="field-error">{{ form.username.errors[0] }}</div>
         {% else %}
-            {{ form.username(class="in", placeholder="Username", autocomplete="off") }}
+            {{ form.username(class="in", placeholder="Имя пользователя", autocomplete="off") }}
         {% endif %}
         
         {% if form.email.errors %}
-            {{ form.email(class="in invalid-field", placeholder="Email", autocomplete="off") }}
+            {{ form.email(class="in invalid-field", placeholder="Почта", autocomplete="off") }}
             <div class="field-error">{{ form.email.errors[0] }}</div>
         {% else %}
-            {{ form.email(class="in", placeholder="Email", autocomplete="off") }}
+            {{ form.email(class="in", placeholder="Почта", autocomplete="off") }}
         {% endif %}
         
         {% if form.password.errors %}
-            {{ form.password(class="in invalid-field", placeholder="Password", autocomplete="off") }}
+            {{ form.password(class="in invalid-field", placeholder="Пароль", autocomplete="off") }}
             <div class="field-error">{{ form.password.errors[0] }}</div>
         {% else %}
-            {{ form.password(class="in", placeholder="Password", autocomplete="off") }}
+            {{ form.password(class="in", placeholder="Пароль", autocomplete="off") }}
         {% endif %}
         
         {% if form.comfirm_password.errors %}
-            {{ form.comfirm_password(class="in invalid-field", placeholder="Comfirm Password", autocomplete="off") }}
+            {{ form.comfirm_password(class="in invalid-field", placeholder="Подтвердить пароль", autocomplete="off") }}
             <div class="field-error">{{ form.comfirm_password.errors[0] }}</div>
         {% else %}
-            {{ form.comfirm_password(class="in", placeholder="Comfirm Password", autocomplete="off") }}
+            {{ form.comfirm_password(class="in", placeholder="Подтвердить пароль", autocomplete="off") }}
         {% endif %}
         
         {{ form.submit(class="submit-btn") }}

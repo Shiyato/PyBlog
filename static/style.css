@@ -3,6 +3,7 @@
 body {
     margin: 0;
     font-size: 15px;
+    font-family: nunito, sans-serif;
 }
 
 h1, h2, h3, h4, p {
@@ -31,14 +32,49 @@ h1, h2, h3, h4, p {
 }
 
 .header-img {
+    display: inline-block;
     height: auto;
-    margin: 0 10px;
-    vertical-align: middle;
+    margin: auto 10px;
 }
 
-.profile-img {
+.head-profile {
     margin: 5px 15px;
     margin-right: 20px;
+    vertical-align: middle;
+    font-size: 18px;
+    font-weight: bold;
+}
+
+.head-profile:hover {
+    color: #2ae2be;
+}
+
+
+.profile-link {
+    display: inline-block;
+    color: #495959;
+    text-decoration: none;
+}
+
+.profile-link:hover {
+    cursor: pointer;
+}
+
+.header-user-photo {
+    width: 32px;
+    border-radius: 100%;
+    
+    position: relative;
+    top: 12px;
+}
+
+.header-user-photo:hover {
+    box-shadow: 0 0 0px 2px #2ae2be;
+}
+
+.search {
+    position: relative;
+    top: 12px;
 }
 
 
@@ -172,7 +208,7 @@ h1, h2, h3, h4, p {
     display: block;
     margin: 0 auto;
     text-align: center;
-    width: 100px;
+    width: 110px;
     color: #2ae2be;
 }
 
@@ -205,6 +241,94 @@ h1, h2, h3, h4, p {
     margin: 8px 0 25px 15px;
     font-size: 17px;
 }
+
+/*Profile*/
+
+.profile-container {
+    box-shadow: 0px 0px 30px rgba(28, 34, 42, 0.18);
+    padding: 2rem;
+    border-radius: 1.3rem;
+}
+
+.user {
+    display: flex;
+}
+
+.user-info {
+    border-left: 1px solid #49595949;
+    padding-left: 35px;
+    width: -webkit-fill-available;
+}
+
+.user-photo {
+    width: 200px;
+    height: 200px;
+    border-radius: 100%;
+    margin-right: 35px;
+}
+
+.username {
+    margin-bottom: 6px;
+}
+
+.register-date, .last-online {
+    font-size: 13px;
+    font-weight: 700;
+}
+
+.last-online {
+    font-size: 15px;
+    margin-left: 3px;
+}
+
+.is-online {
+    color: #2ae2be;
+}
+
+.post-create-button {
+    display: block;
+    width: 100%;
+    padding: 10px;
+    margin-top: 35px;
+    text-decoration: none;
+    color: black;
+    font-size: 16px;
+    font-weight: 700;
+    text-align: center;
+    border: 1px solid black;
+    border-radius: 1.5rem;
+}
+
+.post-create-button:hover {
+    border: 1px solid #3dd1b4;
+    color: #3dd1b4;
+}
+
+.top {
+    display:  flex;
+}
+
+.profile-edit-container {
+    flex-grow: 1;
+    text-align: end;
+}
+
+.profile-edit:hover {
+    border: 1px solid #3dd1b4;
+    color: #3dd1b4;
+}
+
+.profile-edit {
+    display: inline-block;
+    text-decoration: none;
+    color: black;
+    font-size: 14px;
+    font-weight: 700;
+    border: 1px solid black;
+    border-radius: 1.5rem;
+    padding: 12px;
+}
+
 
 
 

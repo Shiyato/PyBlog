@@ -1,7 +1,7 @@
 {% extends 'layout.html' %}
 {% block content %}
     <form class="in-form" action="" method="POST">
-        <h2 class="form-header"></h2>
+        <h2 class="form-header">Вход</h2>
         {{ form.hidden_tag() }}
 
         {% if form.username.errors %}
@@ -23,6 +23,6 @@
         </div>
         
         {{ form.submit(class="submit-btn") }}
-        <a class="form-link" href="/register"> Регистрация </a>
+        <a class="form-link" href="/register">Создать аккаунт</a>
     </form>
 {% endblock %}s
