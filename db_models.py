@@ -15,6 +15,7 @@ class User(db.Model, UserMixin):
     description = db.Column(db.Text(), default=None)
     role = db.Column(db.String(30), nullable=False, default="user")
     register_date = db.Column(db.DateTime(), nullable=False, default=datetime.utcnow)
+    is_online = db.Column(db.Boolean(), nullable=False, default=False)
     last_online_date = db.Column(db.DateTime(), nullable=False, default=datetime.utcnow)
     posts = db.relationship('Post', backref='users', lazy='joined')
     def __repr__(self):

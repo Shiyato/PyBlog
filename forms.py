@@ -1,7 +1,10 @@
 from flask_wtf import FlaskForm
+from flask_wtf.file import FileRequired, FileField
 from wtforms.fields import StringField, PasswordField, SubmitField, TextAreaField, BooleanField
 from wtforms.validators import DataRequired, Length, Email, EqualTo, ValidationError
+from flask_login import current_user
 from db_models import User
+from PIL import Image
 import re
 
 
@@ -17,14 +20,12 @@ class RegisterForm(FlaskForm):
     submit = SubmitField('Создать аккаунт')
 
     def validate_username(self, username):
-        if not re.fullmatch(r"\w*", username.data):
-            raise ValidationError("Имя пользователя может состоять только из букв и цифр")
+        if not re.fullmatch(r'[\da-zA-Z]*', username.data):
+            raise ValidationError("Имя пользователя может состоять только из цифр и букв английского алфавита")
         elif len(username.data) <= 3:
             raise ValidationError("Имя пользователя слишком короткое")
         elif len(username.data) >= 37:
             raise ValidationError("Имя пользователя слишком длинное")
-        elif not re.fullmatch(r'[\da-zA-Z]*', username.data):
-            raise ValidationError("Имя пользователя может содержать буквы только английского алфавита")
         elif User.query.filter(User.username == username.data).first():
             raise ValidationError("Пользователь с таким именем уже существует")
 
@@ -68,6 +69,26 @@ class LoginForm(FlaskForm):
         elif len(password.data) >= 255:
             raise ValidationError("Неправильные логин или пароль")
 
+class ProfileEdit(FlaskForm):
+    photo = FileField('Фото профиля')
+    username = StringField('Имя пользователя')
+    description = TextAreaField('Описание профиля')
+    submit = SubmitField('Подтвердить')
+
+    def validate_username(self, username):
+        if username.data:
+            if not re.fullmatch(r'[\da-zA-Z]*', username.data):
+                raise ValidationError("Имя пользователя может состоять только из цифр и букв английского алфавита")
+            elif len(username.data) <= 3:
+                raise ValidationError(f"Имя пользователя слишком короткое('{username.data}')")
+            elif len(username.data) >= 37:
+                raise ValidationError("Имя пользователя слишком длинное")
+            elif User.query.filter(User.username == username.data).first() and username.data != current_user.username:
+                raise ValidationError("Пользователь с таким именем уже существует")
+
+    def validate_description(self, description):
+        if len(description.data) > 500:
+            raise ValidationError("Описание слишком длинное")
 
 class PostForm(FlaskForm):
     title = StringField('Post title')

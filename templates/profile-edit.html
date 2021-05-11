@@ -1,0 +1,29 @@
+{% extends 'layout.html' %}
+{% block content %}
+    <form class="in-form" action="" method="post" enctype="multipart/form-data">
+        <h1 class="profile-edit-header">Настройки профиля</h1>
+        {{form.photo.label(class="edit-form-label")}}
+        <div class="form-field">
+            {{form.photo(class="file-in")}}
+        </div>
+            
+        {{form.username.label(class="edit-form-label")}}
+        <div class="form-field">
+            {{form.username(class="in", value=current_user.username)}}
+        </div>
+            
+        {{form.description.label(class="edit-form-label")}}
+        <div class="form-field">
+            <textarea class="description-edit" id="description" name="description" wrap="soft">{{ current_user.description }}</textarea>
+            <!--{{form.description(class="text-in", value=current_user.description)}}-->
+        </div>
+        
+        {{ form.hidden_tag() }}
+        
+        <div class="form-field">
+            {{form.submit(class="submit-btn")}}
+        </div>
+        
+            
+    </form>
+{% endblock %}

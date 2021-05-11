@@ -2,30 +2,33 @@
 {% block content %}
     <div class="profile-container">
         <div class="user">
-            <img class="user-photo" src="{{ url_for('static', filename='images/users_photos/' + current_user.username + '.jpg') }}">
+            <img class="user-photo" src="{{ url_for('static', filename='images/users_photos/' + user.username + '.jpg', v=1) }}">
             <div class="user-info">
                 <div class="top">
-                    <h1 class="username">{{ username }}
+                    <h1 class="username">{{ user.username }}
                         <span class="last-online">
-                            {% if current_user.is_authenticated%}
+                            {% if user.is_online %}
                                 <span class="is-online">В сети</span>
                             {% else %}
-                                {{ "Последний раз заходил" + time_format(current_user.last_online_date) }}
+                                <span class="is-not-online">{{ "Заходил " + time_format(user.last_online_date) + " назад" }}</span>
                             {% endif %}
                         </span>
                     </h1>
-                    <div class="profile-edit-container">
-                        <a class="profile-edit" href="/profile-edit">Изменить профиль</a>
-                    </div>
+                    {% if user.username == current_user.username %}
+                        <div class="profile-edit-container">
+                            <a class="profile-edit" href="/profile-edit">Изменить профиль</a>
+                            <a class="profile-edit" href="/logout">Выйти</a>
+                        </div>
+                    {% endif %}
                 </div>
-                <div class="register-date">{{ "Пользуется Py-Blog уже " + time_format(current_user.register_date) }}</div>
+                <div class="register-date">{{ "Пользуется Py-Blog уже " + time_format(user.register_date) }}</div>
                 
-                {% if current_user.description %}
-                    <div class=discription>{{ current_user.description }}</div>
+                {% if user.description %}
+                    <textarea class="description" readonly>{{ user.description }}</textarea>
                 {% endif %}
             </div>
         </div>
-        {% if username == current_user.username %}
+        {% if user.username == current_user.username %}
         <a class="post-create-button" href="/post-create">Новая запись</a>
         {% endif %}
     </div>

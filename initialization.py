@@ -11,6 +11,8 @@ login_manager.session_protection = 'strong'
 login_manager.init_app(app)
 #login_manager.login_view = 'login'
 
+app.config["UPLOAD_FOLDER"] = '/upload'
+
 
 app.config["SECRET_KEY"] = 'super-duper-secret-ultra-key-2000'
 app.config["SQLALCHEMY_DATABASE_URI"] = 'mysql+pymysql://developer:password@localhost:8889/college'

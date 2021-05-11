@@ -38,7 +38,7 @@ h1, h2, h3, h4, p {
 }
 
 .head-profile {
-    margin: 5px 15px;
+    margin: 5px 5px;
     margin-right: 20px;
     vertical-align: middle;
     font-size: 18px;
@@ -61,6 +61,7 @@ h1, h2, h3, h4, p {
 }
 
 .header-user-photo {
+    box-shadow: 0 0 0 1px black;
     width: 32px;
     border-radius: 100%;
     
@@ -227,6 +228,7 @@ h1, h2, h3, h4, p {
 
 .field-error{
     color: #ef4c14;
+    width: 350px;
     position: relative;
     bottom: 10px;
     left: 20px;
@@ -261,10 +263,13 @@ h1, h2, h3, h4, p {
 }
 
 .user-photo {
+    box-shadow: 0 0 0 1px black;
     width: 200px;
     height: 200px;
     border-radius: 100%;
+    margin: auto;
     margin-right: 35px;
+    margin-left: 7px;
 }
 
 .username {
@@ -283,6 +288,12 @@ h1, h2, h3, h4, p {
 
 .is-online {
     color: #2ae2be;
+    font-size: 16px;
+}
+
+.is-not-online {
+    font-size: 14px;
+    font-weight: normal;
 }
 
 .post-create-button {
@@ -308,6 +319,8 @@ h1, h2, h3, h4, p {
     display:  flex;
 }
 
+/*Profile-edit*/
+
 .profile-edit-container {
     flex-grow: 1;
     text-align: end;
@@ -327,7 +340,48 @@ h1, h2, h3, h4, p {
     border: 1px solid black;
     border-radius: 1.5rem;
     padding: 12px;
+    margin-left: 5px
 }
+
+.description {
+    margin-top: 12px;
+    width: 100%;
+    height: 150px;
+    resize: none;
+    overflow: auto;
+    background: #fff;
+    border: none;
+    outline: none;
+}
+
+.description-edit {
+    overflow: auto;
+    resize: none;
+    
+    width: 100%;
+    height: 250px;
+    
+    
+    background: #fff;
+    
+    padding: 1rem;
+    border-radius: 2rem;
+    box-shadow: 0px 4px 15px rgba(28, 34, 42, 0.18);
+    border: none;
+    outline: none;
+}
+
+.edit-form-label {
+    font-size: 19px;
+    color: #3dd1b4;
+    font-weight: bold;
+    display:block;
+    margin: 10px 0;
+}
+
+
+/* Profile-edit */
+
 
 
 

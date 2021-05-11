@@ -2,7 +2,6 @@
 {% block content %}
     <form class="in-form" method="POST" action="">
         <h2 class="form-header">Создать аккаунт</h2>
-        {{ form.hidden_tag() }}
         
         {% if form.username.errors %}
             {{ form.username(class="in invalid-field", placeholder="Имя пользователя", autocomplete="off") }}
@@ -32,6 +31,8 @@
             {{ form.comfirm_password(class="in", placeholder="Подтвердить пароль", autocomplete="off") }}
         {% endif %}
         <div class="field-error">Произоша какая-то ошибка!</div>
+        
+        {{ form.hidden_tag() }}
         
         {{ form.submit(class="submit-btn") }}
         <a class="form-link" href="/login"> Войти </a>

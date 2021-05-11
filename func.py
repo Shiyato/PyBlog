@@ -1,7 +1,19 @@
 from datetime import datetime
+from PIL import Image
+import os
+
+def pic_change_name(before, after):
+    photos_path = os.path.abspath('static/images/users_photos')
+    before = f'{photos_path}/{before}'
+    after = f'{photos_path}/{after}'
+
+    img = Image.open(before)
+    img.save(after)
+    if os.path.realpath(before) and os.path.realpath(after):
+        os.remove(before)
+
 
 def timedelta_to_datetime(delta):
-
     tld = delta.days
     years = tld // 365
     months = tld % 365 // 30
@@ -47,7 +59,7 @@ def time_format(time:datetime):
             rt = f'{n} {form[word_form(n) - 1]}'
         elif delta['day'] >= 7:
             n = delta['day'] // 7
-            form = ('неделя', 'недели', 'недель')
+            form = ('неделю', 'недели', 'недель')
             rt = f'{n} {form[word_form(n) - 1]}'
         else:
             n = delta['day']
@@ -60,11 +72,11 @@ def time_format(time:datetime):
             rt = f'{n} {form[word_form(n) - 1]}'
         elif delta['minute']:
             n = delta['minute']
-            form = ('минута', 'минуты', 'минут')
+            form = ('минуту', 'минуты', 'минут')
             rt = f'{n} {form[word_form(n) - 1]}'
         else:
             n = delta['second']
-            form = ('секунда', 'секунды', 'секунд')
+            form = ('секунду', 'секунды', 'секунд')
             rt = f'{n} {form[word_form(n) - 1]}'
 
     return rt
