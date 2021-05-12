@@ -14,6 +14,11 @@ h1, h2, h3, h4, p {
     box-sizing: border-box;
 }
 
+a {
+    text-decoration: none;
+    color: inherit;
+}
+
 
 /*Header*/
 
@@ -119,17 +124,55 @@ h1, h2, h3, h4, p {
     font-size: 24px;
 }
 
+.post-info {
+    display: flex;
+    flex-wrap: nowrap;
+    border-bottom: 1px solid #49595949;
+    padding-bottom: 10px;
+    margin-bottom: 10px;
+}
+
+.user-info-container {
+    flex: 1 1 auto;
+}
+
 .post-author {
-    display: block;
+    
+    text-decoration: none;
+    font-weight: bold;
+    color: #2ae2be;
+    
+    display: inline-block;
     text-align: left;
+    vertical-align: middle;
     margin: 10px;
     margin-left: 5px;
     font-size: 18px;
     font-weight: 600;
 }
 
+.post-author-img {
+    display: inline-block;
+    vertical-align: middle;
+    width: 30px;
+    height: 30px;
+    
+    border-radius: 100%;
+}
+
 .post-description {
     text-align: left;
+}
+
+.post-date-container {
+    text-align: end;
+    flex: 1 1 auto;
+}
+
+.post-date {
+    display: inline-block;
+    margin: 11.5px;
+    font-size: 15px;
 }
 
 
@@ -177,7 +220,7 @@ h1, h2, h3, h4, p {
 }
 
 
-.in::placeholder {
+.in::placeholder, .textarea-edit::placeholder {
     color: #aaa;
     font-size: 14px;
 }
@@ -276,8 +319,22 @@ h1, h2, h3, h4, p {
     margin-bottom: 6px;
 }
 
+.description {
+    font-size: 14px;
+    
+    margin-top: 12px;
+    width: 100%;
+    height: 150px;
+    
+    resize: none;
+    overflow: auto;
+    background: #fff;
+    border: none;
+    outline: none;
+}
+
 .register-date, .last-online {
-    font-size: 13px;
+    font-size: 15px;
     font-weight: 700;
 }
 
@@ -294,6 +351,23 @@ h1, h2, h3, h4, p {
 .is-not-online {
     font-size: 14px;
     font-weight: normal;
+}
+
+.textarea-edit {
+    overflow: auto;
+    resize: none;
+    
+    width: 100%;
+    height: 250px;
+    
+    
+    background: #fff;
+    
+    padding: 1rem;
+    border-radius: 2rem;
+    box-shadow: 0px 4px 15px rgba(28, 34, 42, 0.18);
+    border: none;
+    outline: none;
 }
 
 .post-create-button {
@@ -343,34 +417,6 @@ h1, h2, h3, h4, p {
     margin-left: 5px
 }
 
-.description {
-    margin-top: 12px;
-    width: 100%;
-    height: 150px;
-    resize: none;
-    overflow: auto;
-    background: #fff;
-    border: none;
-    outline: none;
-}
-
-.description-edit {
-    overflow: auto;
-    resize: none;
-    
-    width: 100%;
-    height: 250px;
-    
-    
-    background: #fff;
-    
-    padding: 1rem;
-    border-radius: 2rem;
-    box-shadow: 0px 4px 15px rgba(28, 34, 42, 0.18);
-    border: none;
-    outline: none;
-}
-
 .edit-form-label {
     font-size: 19px;
     color: #3dd1b4;
@@ -380,9 +426,9 @@ h1, h2, h3, h4, p {
 }
 
 
-/* Profile-edit */
+/* Post-form */
 
-
+.post-form
 
 
 

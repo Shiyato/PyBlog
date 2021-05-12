@@ -2,13 +2,29 @@
 {% block content%}
     <div class="posts-container">
     {% for post in posts %}
+        
+        {% set username = User.query.filter(User.id == post['user_id']).first()['username'] %}
+        {% set content = post['content'] %}
+        
         <div class="post">
-            <h3 class="post-header">{{ post['title'] }}</h3>
-            <span class="post-author">{{ User.query.get(post['user_id'])['username'] }}</span>
-            <span class="post-date">{{ time_format(post['postdate']) + "назад" }}</span>
-            <p class="post-description">{{ post['content'] }}</p>
+            <a href={{ "post/" + str(post['id']) }}><h3 class="post-header">{{ post['title'] }}</h3></a>
+            <div class="post-info">
+                <div class="user-info-container">
+                    <a href={{'profile/' + username}}>
+                        <img class="post-author-img" src="{{ url_for('static', filename='images/users_photos/' + username + '.jpg') }}">
+                        <span class="post-author">{{ username }}</span>
+                    </a>
+                </div>
+                <div class="post-date-container">
+                    <div class="post-date">{{ time_format(post['postdate']) + " назад" }}</div>
+                </div>
+            </div>
+            {% if len(content) > 500 %}
+                <textarea class="description">{{ content[:500].rstrip().rstrip('.').rstrip(',') + '...' }}</textarea>
+            {% else %}
+                <textarea class="description">{{ content }}</textarea>
+            {% endif %}
         </div>
     {% endfor %}
-    </div>
 {% endblock %}
 

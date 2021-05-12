@@ -1,7 +1,7 @@
 from flask import render_template, url_for, request, redirect
 from flask_migrate import Migrate, MigrateCommand
 from sqlalchemy import text
-from forms import LoginForm, RegisterForm, ProfileEdit, FileField
+from forms import LoginForm, RegisterForm, ProfileEdit, FileField, PostCreateForm
 from initialization import app, manager, login_manager
 from db_models import db, User, Post, update_table, make_role
 from werkzeug.security import generate_password_hash, check_password_hash
@@ -11,6 +11,8 @@ from datetime import datetime
 from PIL import Image
 
 import os
+
+#TODO НАСТРОЙ СКРОЛЛБАР(http://htmlbook.ru/blog/polzovatelskie-skrollbary-v-webkit)
 
 folder_path = os.path.abspath('.')
 
@@ -35,7 +37,8 @@ def add_header(r):
 @app.route('/')
 def index():
     posts = Post.query.all()
-    return render_template('index.html', posts=posts, User=User, time_format=time_format, current_user=current_user)
+    return render_template('index.html', posts=posts, User=User, time_format=time_format,
+                           current_user=current_user, len=len, str=str)
 
 @app.route('/register', methods=['POST', 'GET'])
 def register():
@@ -134,6 +137,20 @@ def profile_edit():
     else:
         print(form.photo.errors, form.description.errors, form.username.errors)
         return render_template('profile-edit.html', form=form, current_user=current_user)
+
+
+@app.route('/create-post', methods=['POST', 'GET'])
+@login_required
+def post_create():
+    form = PostCreateForm()
+    if form.validate_on_submit():
+        post = Post(title=form.title.data, content=form.post_content.data, user_id=current_user.id)
+        db.session.add(post)
+        db.session.commit()
+        return redirect('/')
+    else:
+        return render_template('post-create.html', form=form, current_user=current_user)
+
 
 
 @manager.command

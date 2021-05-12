@@ -1,4 +1,21 @@
 {% extends 'layout.html' %}
 {% block content %}
-    {{ form.title() }}
+    <form class="in-form post-form" action="" method="post" enctype="multipart/form-data">
+        <h1 class="form-header">Создание новой записи</h1>
+        
+        <div class="form-field">
+            {{form.title(class="in", placeholder="Заголовок")}}
+        </div>
+        
+        <div class="form-field">
+            {{ form.post_content(class="textarea-edit", placeholder="Содержание записи") }}
+        </div>
+            
+        
+        {{ form.hidden_tag() }}
+        
+        <div class="form-field">
+            {{form.submit(class="submit-btn")}}
+        </div>   
+    </form>
 {% endblock %}

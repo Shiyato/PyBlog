@@ -90,10 +90,22 @@ class ProfileEdit(FlaskForm):
         if len(description.data) > 500:
             raise ValidationError("Описание слишком длинное")
 
-class PostForm(FlaskForm):
-    title = StringField('Post title')
-    content = TextAreaField('Post content')
+class PostCreateForm(FlaskForm):
+    title = StringField('Заголовок записи', validators=[DataRequired()])
+    post_content = TextAreaField('Содержание записи', validators=[DataRequired()])
     submit = SubmitField('Submit')
+
+    def validate_title(self, title):
+        if len(title.data)  == 0:
+            raise ValidationError("Нужно добавить заголовок")
+        elif len(title.data) > 100:
+            raise ValidationError("Заголовок слишком длинный")
+
+    def validate_post_content(self, post_content):
+        if len(post_content.data) == 0:
+            raise ValidationError("Нужно добавить содержимое")
+        elif len(post_content.data) > 5000:
+            raise ValidationError("Содкржипое слишком длинное")
 
 
 
