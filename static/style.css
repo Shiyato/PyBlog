@@ -136,6 +136,11 @@ a {
     flex: 1 1 auto;
 }
 
+.post-title-photo {
+    width: 100%;
+    
+}
+
 .post-author {
     
     text-decoration: none;
@@ -324,8 +329,8 @@ a {
     
     margin-top: 12px;
     width: 100%;
-    height: 150px;
-    
+    height: auto;
+        
     resize: none;
     overflow: auto;
     background: #fff;

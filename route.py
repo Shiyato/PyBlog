@@ -15,6 +15,8 @@ import os
 #TODO НАСТРОЙ СКРОЛЛБАР(http://htmlbook.ru/blog/polzovatelskie-skrollbary-v-webkit)
 
 folder_path = os.path.abspath('.')
+post_images_folder = os.path.join(folder_path, 'static', 'images', 'posts_photos')
+
 
 @login_manager.user_loader
 def load_user(user_id):
@@ -38,7 +40,7 @@ def add_header(r):
 def index():
     posts = Post.query.all()
     return render_template('index.html', posts=posts, User=User, time_format=time_format,
-                           current_user=current_user, len=len, str=str)
+                           current_user=current_user, len=len, str=str, os=os, post_images_folder=post_images_folder)
 
 @app.route('/register', methods=['POST', 'GET'])
 def register():
@@ -147,6 +149,15 @@ def post_create():
         post = Post(title=form.title.data, content=form.post_content.data, user_id=current_user.id)
         db.session.add(post)
         db.session.commit()
+
+        post = Post.query.order_by(Post.id.desc()).first()
+        os.mkdir(os.path.join(post_images_folder, str(post.id)))
+
+        if form.pre_view.data:
+            img = Image.open(form.pre_view.data)
+            img = img.convert('RGB').resize((500,500))
+            img.save(os.path.join(post_images_folder, str(post.id), 'title_photo.jpg'))
+
         return redirect('/')
     else:
         return render_template('post-create.html', form=form, current_user=current_user)

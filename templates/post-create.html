@@ -4,7 +4,11 @@
         <h1 class="form-header">Создание новой записи</h1>
         
         <div class="form-field">
-            {{form.title(class="in", placeholder="Заголовок")}}
+            {{ form.pre_view() }}
+        </div>
+        
+        <div class="form-field">
+            {{ form.title(class="in", placeholder="Заголовок") }}
         </div>
         
         <div class="form-field">

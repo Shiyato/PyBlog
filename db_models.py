@@ -17,7 +17,7 @@ class User(db.Model, UserMixin):
     register_date = db.Column(db.DateTime(), nullable=False, default=datetime.utcnow)
     is_online = db.Column(db.Boolean(), nullable=False, default=False)
     last_online_date = db.Column(db.DateTime(), nullable=False, default=datetime.utcnow)
-    posts = db.relationship('Post', backref='users', lazy='joined')
+    posts = db.relationship('Post', backref='users', lazy='dynamic')
     def __repr__(self):
         return f"User({self.username}, {self.email}, {self.password})"
 
@@ -27,14 +27,12 @@ class Coments(db.Model):
     sub_obj = db.Column(db.String(16), nullable=False)
     content = db.Column(db.Text(), nullable=False)
     coment_date = db.Column(db.DateTime(), nullable=False, default=datetime.utcnow)
-    likes = db.Column(db.Integer, default=0)
     user_id = db.Column(db.Integer(), db.ForeignKey('users.id', ondelete="CASCADE"))
 
 class Post(db.Model):
     __tablename__ = 'posts'
     id = db.Column(db.Integer, primary_key=True)
     title = db.Column(db.String(100), nullable=False)
-    likes = db.Column(db.Integer, default=0)
     content = db.Column(db.Text(), nullable=False)
     postdate = db.Column(db.DateTime(), nullable=False, default=datetime.utcnow)
     user_id = db.Column(db.Integer(), db.ForeignKey('users.id', ondelete="CASCADE"))
@@ -42,6 +40,23 @@ class Post(db.Model):
     def __repr__(self):
         return f"Post({self.title}, {self.postdate}, {self.user_id})"
 
+class Post_Likes(db.Model):
+    __tablename__ = 'post_likes'
+    id = db.Column(db.Integer, primary_key=True)
+    user_id = db.Column(db.Integer, db.ForeignKey('users.id', ondelete="CASCADE"), nullable=None)
+    post_id = db.Column(db.Integer, db.ForeignKey('posts.id', ondelete="CASCADE"), nullable=None)
+
+class ComentLikes(db.Model):
+    __tablename__ = 'coment_likes'
+    id = db.Column(db.Integer, primary_key=True)
+    user_id = db.Column(db.Integer, db.ForeignKey('users.id', ondelete="CASCADE"), nullable=None)
+    coment_id = db.Column(db.Integer, db.ForeignKey('posts.id', ondelete="CASCADE"), nullable=None)
+
+class Saves(db.Model):
+    __tablename__ = 'saves'
+    id = db.Column(db.Integer, primary_key=True)
+    user_id = db.Column(db.Integer, db.ForeignKey('users.id', ondelete="CASCADE"), nullable=None)
+    post_id = db.Column(db.Integer, db.ForeignKey('posts.id', ondelete="CASCADE"), nullable=None)
 
 def update_table(table:str, column_value:str, id_column:str, id_column_value:str, conditions=None):
     if conditions:

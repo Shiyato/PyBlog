@@ -5,6 +5,8 @@
         
         {% set username = User.query.filter(User.id == post['user_id']).first()['username'] %}
         {% set content = post['content'] %}
+        {% set id = str(post['id']) %}
+        {% set title_photo = os.path.join(post_images_folder, id, 'title_photo.jpg') %}
         
         <div class="post">
             <a href={{ "post/" + str(post['id']) }}><h3 class="post-header">{{ post['title'] }}</h3></a>
@@ -19,10 +21,14 @@
                     <div class="post-date">{{ time_format(post['postdate']) + " назад" }}</div>
                 </div>
             </div>
-            {% if len(content) > 500 %}
-                <textarea class="description">{{ content[:500].rstrip().rstrip('.').rstrip(',') + '...' }}</textarea>
+            {% if os.path.realpath(title_photo) %}
+                <img class="post-title-photo" src={{ title_photo }}>
             {% else %}
-                <textarea class="description">{{ content }}</textarea>
+                {% if len(content) > 240 %}
+                    <p class="description">{{ content[:240].rstrip().rstrip('.').rstrip(',') + '...' }}</p>
+                {% else %}
+                    <p class="description">{{ content }}</p>
+                {% endif %}
             {% endif %}
         </div>
     {% endfor %}

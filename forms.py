@@ -91,6 +91,7 @@ class ProfileEdit(FlaskForm):
             raise ValidationError("Описание слишком длинное")
 
 class PostCreateForm(FlaskForm):
+    pre_view = FileField('Превью записи')
     title = StringField('Заголовок записи', validators=[DataRequired()])
     post_content = TextAreaField('Содержание записи', validators=[DataRequired()])
     submit = SubmitField('Submit')
