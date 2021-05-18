@@ -107,6 +107,3 @@ class PostCreateForm(FlaskForm):
             raise ValidationError("Нужно добавить содержимое")
         elif len(post_content.data) > 5000:
             raise ValidationError("Содкржипое слишком длинное")
-
-
-

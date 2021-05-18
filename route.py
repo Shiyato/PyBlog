@@ -3,10 +3,10 @@ from flask_migrate import Migrate, MigrateCommand
 from sqlalchemy import text
 from forms import LoginForm, RegisterForm, ProfileEdit, FileField, PostCreateForm
 from initialization import app, manager, login_manager
-from db_models import db, User, Post, update_table, make_role
+from db_models import db, User, Post, update_table, make_role, Post_Likes
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask_login import login_required, login_user, logout_user, current_user, user_logged_out
-from func import time_format, pic_change_name
+from func import time_format, pic_change_name, justify_text
 from datetime import datetime
 from PIL import Image
 
@@ -63,6 +63,8 @@ def register():
                 img = img.resize((200, 200))
                 img.save(folder_path + '//static//images//users_photos//' + username + '.jpg')
                 login_user(User.query.filter(User.username == username).first())
+                query = text(f"UPDATE users SET is_online=True WHERE id='{current_user.id}'")
+                db.engine.execute(query)
                 return redirect('/')
             except:
                 return render_template('register_error.html', form=form, current_user=current_user)
@@ -82,7 +84,7 @@ def login():
             usr = User.query.filter(User.username == username).first()
             if usr:
                 if check_password_hash(usr.password, password):
-                    login_user(usr)
+                    login_user(usr, remember=form.remember.data)
                     query = text(f"UPDATE users SET is_online=True WHERE id='{current_user.id}'")
                     db.engine.execute(query)
                     return render_template('sucsses.html', username=username, current_user=current_user)
@@ -146,7 +148,7 @@ def profile_edit():
 def post_create():
     form = PostCreateForm()
     if form.validate_on_submit():
-        post = Post(title=form.title.data, content=form.post_content.data, user_id=current_user.id)
+        post = Post(title=form.title.data, content=justify_text(form.post_content.data), user_id=current_user.id)
         db.session.add(post)
         db.session.commit()
 
@@ -158,10 +160,31 @@ def post_create():
             img = img.convert('RGB').resize((500,500))
             img.save(os.path.join(post_images_folder, str(post.id), 'title_photo.jpg'))
 
+            query = text(f"UPDATE posts SET have_title_image='1' WHERE id='{post.id}'")
+            db.engine.execute(query)
+
         return redirect('/')
     else:
         return render_template('post-create.html', form=form, current_user=current_user)
 
+@app.route('/post/<id>')
+def post_view(id):
+    table = Post_Likes
+    liked = bool(table.query.filter(table.post_id == id).filter(table.user_id == current_user.id).all())
+    return render_template('post-page.html', current_user=current_user, post=Post.query.get(id), str=str, int=int, liked=liked)
+
+@app.route('/like/post/<string:id>/<int:liked>')
+@login_required
+def like_post(id, liked):
+    user_id = current_user.id
+    if liked:
+        query = text(f"DELETE FROM post_likes WHERE user_id='{user_id}' AND post_id='{id}';")
+        db.engine.execute(query)
+    else:
+        like = Post_Likes(post_id=id, user_id=user_id)
+        db.session.add(like)
+        db.session.commit()
+    return redirect(f'/post/{id}')
 
 
 @manager.command

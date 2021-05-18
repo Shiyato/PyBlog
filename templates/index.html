@@ -1,36 +1,141 @@
 {% extends 'layout.html' %}
 {% block content%}
     <div class="posts-container">
-    {% for post in posts %}
         
-        {% set username = User.query.filter(User.id == post['user_id']).first()['username'] %}
-        {% set content = post['content'] %}
-        {% set id = str(post['id']) %}
-        {% set title_photo = os.path.join(post_images_folder, id, 'title_photo.jpg') %}
+        <div class="posts-column">
+            {% for post_id in range(0, len(posts), 3) %}
+                {% set post = posts[post_id] %}
+                {% set username = User.query.filter(User.id == post['user_id']).first()['username'] %}
+                {% set content = post['content'] %}
+                {% set id = str(post['id']) %}
+                {% set title_photo = os.path.join(post_images_folder, id, 'title_photo.jpg') %}
+                {% set title_photo_url = url_for('static', filename='images/posts_photos/' + str(id) + '/title_photo.jpg') %}
+
+
+                <div class="post">
+
+                    <a href={{ "post/" + str(post['id']) }}><h3 class="post-header">{{ post['title'] }}</h3></a>
+
+                    <div class="post-info">
+                        <div class="user-info-container">
+                            <a href={{'profile/' + username}}>
+                                <img class="post-author-img" src="{{ url_for('static', filename='images/users_photos/' + username + '.jpg') }}">
+                                <span class="post-author">{{ username }}</span>
+                            </a>
+                        </div>
+                        <div class="post-date-container">
+                            <div class="post-date">{{ time_format(post['postdate']) + " назад" }}</div>
+                        </div>
+                    </div>
+
+                    {% if os.path.exists(title_photo) %}
+                        <img class="post-title-photo" src={{ title_photo_url }}>
+                    {% else %}
+                        {% if len(content) > 240 %}
+                            {% autoescape false %}
+                                <div class="description post-description">{{ content[:240].rstrip().rstrip('.').rstrip(',') + '...' }}</div>
+                            {% endautoescape %}
+                        {% else %}
+                            {% autoescape false %}
+                                <div class="description post-description">{{ content }}</div>
+                            {% endautoescape %}
+                        {% endif %}
+                    {% endif %}
+
+                </div>
+            {% endfor %}
+        </div> 
         
-        <div class="post">
-            <a href={{ "post/" + str(post['id']) }}><h3 class="post-header">{{ post['title'] }}</h3></a>
-            <div class="post-info">
-                <div class="user-info-container">
-                    <a href={{'profile/' + username}}>
-                        <img class="post-author-img" src="{{ url_for('static', filename='images/users_photos/' + username + '.jpg') }}">
-                        <span class="post-author">{{ username }}</span>
-                    </a>
+        <div class="posts-column">
+            {% for post_id in range(1, len(posts), 3) %}
+                {% set post = posts[post_id] %}
+                {% set username = User.query.filter(User.id == post['user_id']).first()['username'] %}
+                {% set content = post['content'] %}
+                {% set id = str(post['id']) %}
+                {% set title_photo = os.path.join(post_images_folder, id, 'title_photo.jpg') %}
+                {% set title_photo_url = url_for('static', filename='images/posts_photos/' + str(id) + '/title_photo.jpg') %}
+
+
+                <div class="post">
+
+                    <a href={{ "post/" + str(post['id']) }}><h3 class="post-header">{{ post['title'] }}</h3></a>
+
+                    <div class="post-info">
+                        <div class="user-info-container">
+                            <a href={{'profile/' + username}}>
+                                <img class="post-author-img" src="{{ url_for('static', filename='images/users_photos/' + username + '.jpg') }}">
+                                <span class="post-author">{{ username }}</span>
+                            </a>
+                        </div>
+                        <div class="post-date-container">
+                            <div class="post-date">{{ time_format(post['postdate']) + " назад" }}</div>
+                        </div>
+                    </div>
+
+                    {% if os.path.exists(title_photo) %}
+                        <img class="post-title-photo" src={{ title_photo_url }}>
+                    {% else %}
+                        {% if len(content) > 240 %}
+                            {% autoescape false %}
+                                <div class="description post-description">{{ content[:240].rstrip().rstrip('.').rstrip(',') + '...' }}</div>
+                            {% endautoescape %}
+                        {% else %}
+                            {% autoescape false %}
+                                <div class="description post-description">{{ content }}</div>
+                            {% endautoescape %}
+                        {% endif %}
+                    {% endif %}
+
                 </div>
-                <div class="post-date-container">
-                    <div class="post-date">{{ time_format(post['postdate']) + " назад" }}</div>
-                </div>
-            </div>
-            {% if os.path.realpath(title_photo) %}
-                <img class="post-title-photo" src={{ title_photo }}>
-            {% else %}
-                {% if len(content) > 240 %}
-                    <p class="description">{{ content[:240].rstrip().rstrip('.').rstrip(',') + '...' }}</p>
-                {% else %}
-                    <p class="description">{{ content }}</p>
-                {% endif %}
-            {% endif %}
+            {% endfor %}
         </div>
-    {% endfor %}
+        
+        <div class="posts-column">
+            {% for post_id in range(2, len(posts), 3) %}
+                {% set post = posts[post_id] %}
+                {% set username = User.query.filter(User.id == post['user_id']).first()['username'] %}
+                {% set content = post['content'] %}
+                {% set id = str(post['id']) %}
+                {% set title_photo = os.path.join(post_images_folder, id, 'title_photo.jpg') %}
+                {% set title_photo_url = url_for('static', filename='images/posts_photos/' + str(id) + '/title_photo.jpg') %}
+
+
+                <div class="post">
+
+                    <a href={{ "post/" + str(post['id']) }}><h3 class="post-header">{{ post['title'] }}</h3></a>
+
+                    <div class="post-info">
+                        <div class="user-info-container">
+                            <a href={{'profile/' + username}}>
+                                <img class="post-author-img" src="{{ url_for('static', filename='images/users_photos/' + username + '.jpg') }}">
+                                <span class="post-author">{{ username }}</span>
+                            </a>
+                        </div>
+                        <div class="post-date-container">
+                            <div class="post-date">{{ time_format(post['postdate']) + " назад" }}</div>
+                        </div>
+                    </div>
+
+                    {% if os.path.exists(title_photo) %}
+                        <img class="post-title-photo" src={{ title_photo_url }}>
+                    {% else %}
+                        {% if len(content) > 240 %}
+                            {% autoescape false %}
+                                <div class="description post-description">{{ content[:240].rstrip().rstrip('.').rstrip(',') + '...' }}</div>
+                            {% endautoescape %}
+                        {% else %}
+                            {% autoescape false %}
+                                <div class="description post-description">{{ content }}</div>
+                            {% endautoescape %}
+                        {% endif %}
+                    {% endif %}
+
+                </div>
+            {% endfor %}
+        </div>
+    
+    
+   
+    </div>
 {% endblock %}
 

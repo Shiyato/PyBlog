@@ -1,6 +1,20 @@
 from datetime import datetime
 from PIL import Image
+from db_models import Post
+import re
 import os
+
+
+def justify_text(text:str):
+
+    text_strings = re.split(r'\n', text)
+    for i in range(len(text_strings)):
+        text_strings[i] = f'<p>{text_strings[i]}</p>'
+
+    return '\n'.join(text_strings)
+
+
+
 
 def pic_change_name(before, after):
     photos_path = os.path.abspath('static/images/users_photos')
@@ -9,7 +23,7 @@ def pic_change_name(before, after):
 
     img = Image.open(before)
     img.save(after)
-    if os.path.realpath(before) and os.path.realpath(after):
+    if os.path.exists(before) and os.path.exists(after):
         os.remove(before)
 
 

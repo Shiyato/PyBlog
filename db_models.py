@@ -36,6 +36,7 @@ class Post(db.Model):
     content = db.Column(db.Text(), nullable=False)
     postdate = db.Column(db.DateTime(), nullable=False, default=datetime.utcnow)
     user_id = db.Column(db.Integer(), db.ForeignKey('users.id', ondelete="CASCADE"))
+    have_title_image = db.Column(db.Boolean(), nullable=False, default=0)
 
     def __repr__(self):
         return f"Post({self.title}, {self.postdate}, {self.user_id})"
@@ -45,12 +46,6 @@ class Post_Likes(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     user_id = db.Column(db.Integer, db.ForeignKey('users.id', ondelete="CASCADE"), nullable=None)
     post_id = db.Column(db.Integer, db.ForeignKey('posts.id', ondelete="CASCADE"), nullable=None)
-
-class ComentLikes(db.Model):
-    __tablename__ = 'coment_likes'
-    id = db.Column(db.Integer, primary_key=True)
-    user_id = db.Column(db.Integer, db.ForeignKey('users.id', ondelete="CASCADE"), nullable=None)
-    coment_id = db.Column(db.Integer, db.ForeignKey('posts.id', ondelete="CASCADE"), nullable=None)
 
 class Saves(db.Model):
     __tablename__ = 'saves'

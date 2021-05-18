@@ -1,0 +1,31 @@
+{% extends 'layout.html' %}
+{% block content %}
+    <div class="post-container"> 
+        
+        <div class="post-title-container">
+            
+            <div class="top-post-title">
+                <h1 class="post-view-header">
+                    {{ post.title }}
+                </h1>
+                {% if liked %}
+                    <a class="like" href={{ "/like/post/" + str(post.id) + '/' + str(int(liked)) }}><img class="like-img" src={{ url_for('static', filename="images/Like-heard.svg") }}></a>
+                {% else %}
+                    <a class="like" href={{ "/like/post/" + str(post.id) + '/' + str(int(liked)) }}><img class="like-img" src={{ url_for('static', filename="images/Like-heard-grey.svg") }}></a>
+                {% endif %}
+            </div>
+            
+            {% if post.have_title_image %}
+                <img class="post-view-title-photo" src={{ url_for('static', filename="images/posts_photos/" + str(post.id) + "/title_photo.jpg") }}>
+            {% endif %}
+            
+        </div>
+        
+        <div class="post-content-container">
+            {% autoescape false %}
+                 {{ post.content }}
+            {% endautoescape %}
+        </div>
+    </div>
+
+{% endblock %}

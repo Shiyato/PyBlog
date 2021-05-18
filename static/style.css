@@ -19,6 +19,10 @@ a {
     color: inherit;
 }
 
+p {
+    margin-bottom: 1em;
+}
+
 
 /*Header*/
 
@@ -31,7 +35,7 @@ a {
     display: flex;
     position: fixed;
     
-    z-index: 100px;;
+    background: #faffff;
     
     justify-content: space-between;
 }
@@ -91,7 +95,7 @@ a {
 }
 
 .page {
-    width: 60%;
+    width: 80%;
     min-width: 180px;
     
     margin: 0 auto;
@@ -104,12 +108,18 @@ a {
 .posts-container {
     display: flex;
     flex-wrap: wrap;
-    justify-content: space-around;
+    justify-content: center;
 }
 
-.post {
+.posts-column {
+    display: flex;
     flex: 0 0 360px;
+    flex-direction: column;
+}
+.post {
+    flex: 0 1 auto;
     
+    max-height: 500px;
     border-radius: 2em;
     margin: 2em;
     padding: 1.5em;
@@ -138,6 +148,7 @@ a {
 
 .post-title-photo {
     width: 100%;
+    border-radius: 1.5rem;
     
 }
 
@@ -165,8 +176,13 @@ a {
     border-radius: 100%;
 }
 
+
 .post-description {
-    text-align: left;
+    max-height: 300px;
+}
+
+.post-description::-webkit-scrollbar {
+    width: 0
 }
 
 .post-date-container {
@@ -178,6 +194,62 @@ a {
     display: inline-block;
     margin: 11.5px;
     font-size: 15px;
+}
+
+/*Post-page*/
+
+.post-container {
+    width: 1000px;;
+    
+    margin: 0 auto;
+    padding: 1.5rem;
+    
+    border-radius: 1.5rem;
+    box-shadow: 0 2px 30px rgba(28, 34, 42, 0.18);
+}
+
+.post-title-container {
+    padding: 1.5rem;
+}
+
+.post-content-container {
+    padding: 0 3rem;
+    letter-spacing: 0.15px;
+    word-spacing: 1px;
+    line-height: 1.2em;
+    font-size: 21px;
+}
+
+.post-view-header {
+    align-self: center;
+    display: block;
+    font-size: 41px;
+    color: #50d3bd;
+}
+
+.post-view-title-photo {
+    display: block;
+    
+    width: 90%;
+    margin: 1.5rem auto;
+    
+    border-radius: 1.5rem;
+}
+
+.top-post-title {
+    display: flex;
+    padding-bottom: 0.5rem;
+    border-bottom: 1px solid #49595959;
+}
+
+.like {
+    display: block;
+    margin-left: auto;
+    width: 80px;
+}
+
+.like-img {
+    
 }
 
 
@@ -257,7 +329,7 @@ a {
     display: block;
     margin: 0 auto;
     text-align: center;
-    width: 110px;
+    width: auto;
     color: #2ae2be;
 }
 
@@ -295,6 +367,8 @@ a {
 /*Profile*/
 
 .profile-container {
+    width: 75%;
+    margin: 0 auto;
     box-shadow: 0px 0px 30px rgba(28, 34, 42, 0.18);
     padding: 2rem;
     border-radius: 1.3rem;
