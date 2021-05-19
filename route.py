@@ -109,7 +109,9 @@ def logout():
 def profile(username):
     user = User.query.filter(User.username == username).first()
     if user:
-        return render_template('user.html', time_format=time_format, current_user=current_user, user=user)
+        posts = Post.query.filter(Post.user_id == user.id).all()
+        return render_template('user.html', time_format=time_format, current_user=current_user, user=user, posts=posts,
+                               User=User, len=len, str=str, os=os, post_images_folder=post_images_folder)
     else:
         return 'Этого пользователя не сущесвует'
 
@@ -170,8 +172,11 @@ def post_create():
 @app.route('/post/<id>')
 def post_view(id):
     table = Post_Likes
-    liked = bool(table.query.filter(table.post_id == id).filter(table.user_id == current_user.id).all())
-    return render_template('post-page.html', current_user=current_user, post=Post.query.get(id), str=str, int=int, liked=liked)
+    if current_user.is_authenticated:
+        liked = bool(table.query.filter(table.post_id == id).filter(table.user_id == current_user.id).all())
+    else:
+        liked = False
+    return render_template('post-page.html', current_user=current_user, post=Post.query.get(id), str=str, int=int, liked=liked, table=table)
 
 @app.route('/like/post/<string:id>/<int:liked>')
 @login_required

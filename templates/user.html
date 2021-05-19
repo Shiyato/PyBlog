@@ -16,6 +16,7 @@
                     </h1>
                     {% if user.username == current_user.username %}
                         <div class="profile-edit-container">
+                            <a class="profile-edit" href="/saved">Сохранённые</a>
                             <a class="profile-edit" href="/profile-edit">Изменить профиль</a>
                             <a class="profile-edit" href="/logout">Выйти</a>
                         </div>
@@ -24,7 +25,7 @@
                 <div class="register-date">{{ "Пользуется Py-Blog уже " + time_format(user.register_date) }}</div>
                 <div class="description-container">
                     {% if user.description %}
-                        <textarea class="description" readonly>{{ user.description }}</textarea>
+                        <textarea class="description profile-description" readonly>{{ user.description }}</textarea>
                     {% endif %}
                 </div>
                     
@@ -33,5 +34,50 @@
         {% if user.username == current_user.username %}
         <a class="post-create-button" href="/create-post">Новая запись</a>
         {% endif %}
+        
+        <div class="posts-container profile-post-container">
+            {% for post_id in range(len(posts)) %}
+                    {% set post = posts[post_id] %}
+                    {% set username = User.query.filter(User.id == post['user_id']).first()['username'] %}
+                    {% set content = post['content'] %}
+                    {% set id = str(post['id']) %}
+                    {% set title_photo = os.path.join(post_images_folder, id, 'title_photo.jpg') %}
+                    {% set title_photo_url = url_for('static', filename='images/posts_photos/' + str(id) + '/title_photo.jpg') %}
+
+
+                    <div class="post profile-post">
+
+                        <a href={{ "/post/" + str(post['id']) }}><h3 class="post-header">{{ post['title'] }}</h3></a>
+
+                        <div class="post-info">
+                            <div class="user-info-container">
+                                <a href={{'/profile/' + username}}>
+                                    <img class="post-author-img" src="{{ url_for('static', filename='images/users_photos/' + username + '.jpg') }}">
+                                    <span class="post-author">{{ username }}</span>
+                                </a>
+                            </div>
+                            <div class="post-date-container">
+                                <div class="post-date">{{ time_format(post['postdate']) + " назад" }}</div>
+                            </div>
+                        </div>
+
+                        {% if os.path.exists(title_photo) %}
+                            <img class="post-title-photo" src={{ title_photo_url }}>
+                        {% else %}
+                            {% if len(content) > 240 %}
+                                {% autoescape false %}
+                                    <div class="description post-description">{{ content[:240].rstrip().rstrip('.').rstrip(',') + '...' }}</div>
+                                {% endautoescape %}
+                            {% else %}
+                                {% autoescape false %}
+                                    <div class="description post-description">{{ content }}</div>
+                                {% endautoescape %}
+                            {% endif %}
+                        {% endif %}
+
+                    </div>
+                {% endfor %}
+            </div>
+        
     </div>
 {% endblock %}

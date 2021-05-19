@@ -9,9 +9,9 @@
                     {{ post.title }}
                 </h1>
                 {% if liked %}
-                    <a class="like" href={{ "/like/post/" + str(post.id) + '/' + str(int(liked)) }}><img class="like-img" src={{ url_for('static', filename="images/Like-heard.svg") }}></a>
+                    <a class="like" href={{ "/like/post/" + str(post.id) + '/' + str(int(liked)) }}><span class="likes-count liked">{{ table.query.filter(table.post_id == post.id).count() }}</span><img class="like-img" src={{ url_for('static', filename="images/Like-heard.svg") }}></a>
                 {% else %}
-                    <a class="like" href={{ "/like/post/" + str(post.id) + '/' + str(int(liked)) }}><img class="like-img" src={{ url_for('static', filename="images/Like-heard-grey.svg") }}></a>
+                    <a class="like" href={{ "/like/post/" + str(post.id) + '/' + str(int(liked)) }}><span class="likes-count">{{ table.query.filter(table.post_id == post.id).count() }}</span><img class="like-img" src={{ url_for('static', filename="images/Like-heard-grey.svg") }}></a>
                 {% endif %}
             </div>
             
