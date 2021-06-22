@@ -11,13 +11,18 @@
     <body>
         <header class="head">
             <a href="/"><img class="header-img" src="{{ url_for( 'static', filename='images/Pblog-logo.svg' )}}" width="50px"></a>
-            <div>
-                <img class="header-img search" src="{{ url_for( 'static',  filename='images/Pblog-search.svg' )}}" width="30px">
+            <div class="navigation">
+                <form class="search-form" method="post" action="/search" autocomplete="off">
+                    {% set search_img = url_for( 'static',  filename='images/Pblog-search.svg' ) %}
+                    {{ search.hidden_tag() }}
+                    {{ search.search_field(class="search-field", placeholder="Поиск")}}
+                    {{ search.search_submit(class="search-submit")}}
+                </form>
                 
                 {% if current_user.is_authenticated %}
                     <a class="profile-link" href="{{ '/profile/' + current_user.username }}">
                         <img alt="*" class="header-user-photo" src="{{ url_for('static', filename='images/users_photos/' + current_user.username + '.jpg', v=1)}}">
-                        <span class='head-profile'>{{ current_user.username }}</span>
+                        <div class='head-profile'>{{ current_user.username }}</div>
                     </a>
                 {% else %}
                     <a href="/login"><img class="header-img head-profile" src="{{ url_for( 'static', filename='images/Pblog-user.svg' )}}" width="30px"></a>

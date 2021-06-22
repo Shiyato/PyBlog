@@ -107,3 +107,7 @@ class PostCreateForm(FlaskForm):
             raise ValidationError("Нужно добавить содержимое")
         elif len(post_content.data) > 5000:
             raise ValidationError("Содкржипое слишком длинное")
+
+class Search(FlaskForm):
+    search_field = StringField('Поиск')
+    search_submit = SubmitField('Найти')

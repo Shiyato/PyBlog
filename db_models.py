@@ -39,7 +39,7 @@ class Post(db.Model):
     have_title_image = db.Column(db.Boolean(), nullable=False, default=0)
 
     def __repr__(self):
-        return f"Post({self.title}, {self.postdate}, {self.user_id})"
+        return f"Post({self.title}, {self.postdate}, {self.user_id}, {self.id})"
 
 class Post_Likes(db.Model):
     __tablename__ = 'post_likes'

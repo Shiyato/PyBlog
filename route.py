@@ -1,9 +1,9 @@
-from flask import render_template, url_for, request, redirect
+from flask import render_template, url_for, request, redirect, abort
 from flask_migrate import Migrate, MigrateCommand
 from sqlalchemy import text
-from forms import LoginForm, RegisterForm, ProfileEdit, FileField, PostCreateForm
+from forms import LoginForm, RegisterForm, ProfileEdit, FileField, PostCreateForm, Search
 from initialization import app, manager, login_manager
-from db_models import db, User, Post, update_table, make_role, Post_Likes
+from db_models import db, User, Post, update_table, make_role, Post_Likes, Saves
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask_login import login_required, login_user, logout_user, current_user, user_logged_out
 from func import time_format, pic_change_name, justify_text
@@ -12,7 +12,6 @@ from PIL import Image
 
 import os
 
-#TODO НАСТРОЙ СКРОЛЛБАР(http://htmlbook.ru/blog/polzovatelskie-skrollbary-v-webkit)
 
 folder_path = os.path.abspath('.')
 post_images_folder = os.path.join(folder_path, 'static', 'images', 'posts_photos')
@@ -36,11 +35,20 @@ def add_header(r):
     return r
 
 
+
 @app.route('/')
 def index():
-    posts = Post.query.all()
+
+
+    if current_user.is_authenticated:
+        posts = Post.query.filter(Post.user_id != current_user.id).all()
+    else:
+        posts = Post.query.all()
+
+
     return render_template('index.html', posts=posts, User=User, time_format=time_format,
-                           current_user=current_user, len=len, str=str, os=os, post_images_folder=post_images_folder)
+                           current_user=current_user, len=len, str=str, int=int, os=os, post_images_folder=post_images_folder,
+                           post_likes=Post_Likes, post_saves=Saves, bool=bool, search=Search())
 
 @app.route('/register', methods=['POST', 'GET'])
 def register():
@@ -67,33 +75,26 @@ def register():
                 db.engine.execute(query)
                 return redirect('/')
             except:
-                return render_template('register_error.html', form=form, current_user=current_user)
-        else:
-            return render_template('register.html', form=form, current_user=current_user)
+                pass
+    return render_template('register.html', form=form, current_user=current_user, search=Search())
 
 
 @app.route('/login', methods=['POST', 'GET'])
 def login():
+    form = LoginForm()
     if current_user.is_authenticated:
         return redirect('/profile')
-    else:
-        form = LoginForm()
-        if form.validate_on_submit():
-            username = form.username.data
-            password = form.password.data
-            usr = User.query.filter(User.username == username).first()
-            if usr:
-                if check_password_hash(usr.password, password):
-                    login_user(usr, remember=form.remember.data)
-                    query = text(f"UPDATE users SET is_online=True WHERE id='{current_user.id}'")
-                    db.engine.execute(query)
-                    return render_template('sucsses.html', username=username, current_user=current_user)
-                else:
-                    return render_template('login.html', form=form, current_user=current_user)
-            else:
-                return render_template('login.html', form=form, current_user=current_user)
-        else:
-            return render_template('login.html', form=form, current_user=current_user)
+    elif form.validate_on_submit():
+        username = form.username.data
+        password = form.password.data
+        usr = User.query.filter(User.username == username).first()
+        if usr and check_password_hash(usr.password, password):
+            login_user(usr, remember=form.remember.data)
+            query = text(f"UPDATE users SET is_online=True WHERE id='{current_user.id}'")
+            db.engine.execute(query)
+            return redirect('/profile/' + username)
+    return render_template('login.html', form=form, current_user=current_user, search=Search())
+
 
 
 @app.route('/logout')
@@ -111,9 +112,9 @@ def profile(username):
     if user:
         posts = Post.query.filter(Post.user_id == user.id).all()
         return render_template('user.html', time_format=time_format, current_user=current_user, user=user, posts=posts,
-                               User=User, len=len, str=str, os=os, post_images_folder=post_images_folder)
+                               User=User, len=len, str=str, os=os, post_images_folder=post_images_folder, search=Search())
     else:
-        return 'Этого пользователя не сущесвует'
+        abort(404)
 
 
 @app.route('/profile-edit', methods=['POST', 'GET'])
@@ -140,9 +141,7 @@ def profile_edit():
             db.engine.execute(query)
 
         return redirect('/profile/' + username if username else '/profile/' + current_user.username)
-    else:
-        print(form.photo.errors, form.description.errors, form.username.errors)
-        return render_template('profile-edit.html', form=form, current_user=current_user)
+    return render_template('profile-edit.html', form=form, current_user=current_user, search=Search())
 
 
 @app.route('/create-post', methods=['POST', 'GET'])
@@ -165,18 +164,21 @@ def post_create():
             query = text(f"UPDATE posts SET have_title_image='1' WHERE id='{post.id}'")
             db.engine.execute(query)
 
-        return redirect('/')
-    else:
-        return render_template('post-create.html', form=form, current_user=current_user)
+        return redirect('/profile/' + current_user.username)
+    return render_template('post-create.html', form=form, current_user=current_user, search=Search())
 
 @app.route('/post/<id>')
 def post_view(id):
     table = Post_Likes
     if current_user.is_authenticated:
-        liked = bool(table.query.filter(table.post_id == id).filter(table.user_id == current_user.id).all())
+        liked = bool(table.query.filter(table.post_id == id).filter(table.user_id == current_user.id).first())
+        saved = bool(Saves.query.filter(Saves.post_id == id).filter(Saves.user_id == current_user.id).first())
     else:
         liked = False
-    return render_template('post-page.html', current_user=current_user, post=Post.query.get(id), str=str, int=int, liked=liked, table=table)
+        saved = False
+
+    return render_template('post-page.html', current_user=current_user, post=Post.query.get(id), str=str, int=int,
+                           liked=liked, saved=saved , table=table, search=Search())
 
 @app.route('/like/post/<string:id>/<int:liked>')
 @login_required
@@ -191,6 +193,49 @@ def like_post(id, liked):
         db.session.commit()
     return redirect(f'/post/{id}')
 
+
+@app.route('/save/post/<string:id>/<int:liked>')
+@login_required
+def save_post(id, liked):
+    user_id = current_user.id
+    if liked:
+        query = text(f"DELETE FROM saves WHERE user_id='{user_id}' AND post_id='{id}';")
+        db.engine.execute(query)
+    else:
+        save = Saves(post_id=id, user_id=user_id)
+        db.session.add(save)
+        db.session.commit()
+    return redirect(f'/post/{id}')
+
+
+@app.route('/saved')
+@login_required
+def saved():
+    saved_posts_id = list(map(lambda x: x.post_id,  Saves.query.filter(Saves.user_id == current_user.id).all()))
+    saved_posts = list(filter(lambda x: x.id in saved_posts_id, Post.query.all()))
+    return render_template('saved.html', current_user=current_user, posts=saved_posts, post_images_folder=post_images_folder,
+                           post_likes=Post_Likes, time_format=time_format, User=User, search=Search(), len=len, str=str, int=int, bool=bool, os=os)
+
+
+@app.route('/search', methods=['GET', 'POST'])
+def search_view():
+    form = Search()
+    if form.validate_on_submit():
+        to_find = form.search_field.data
+        posts_found = list(filter(lambda post: to_find.lower() in post.title.lower(), Post.query.all()))
+        users_found = list(filter(lambda user: to_find.lower() in user.username.lower(), User.query.all()))
+        if (not posts_found and not users_found) or not to_find:
+            message = 'По вашему запросу ничего не найдено'
+        else:
+            message = ''
+    else:
+        message = 'Вы пока ещё ничего не искали'
+        posts_found = []
+        users_found = []
+    return render_template('search.html', current_user=current_user, search=form, posts_found=posts_found, users_found=users_found,
+                           message=message, len=len, User=User, time_format=time_format,
+                            str=str, int=int, os=os, post_images_folder=post_images_folder,
+                           post_likes=Post_Likes, post_saves=Saves, bool=bool)
 
 @manager.command
 def uptable(table, column_value, id_column, id_column_value, conditions):

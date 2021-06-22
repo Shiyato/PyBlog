@@ -10,6 +10,15 @@
                 {% set id = str(post['id']) %}
                 {% set title_photo = os.path.join(post_images_folder, id, 'title_photo.jpg') %}
                 {% set title_photo_url = url_for('static', filename='images/posts_photos/' + str(id) + '/title_photo.jpg') %}
+                 
+                {% if current_user.is_authenticated %}
+                    {% set liked = bool(post_likes.query.filter(post_likes.user_id == current_user.id).filter(post_likes.post_id == post['id']).all()) %}
+                    {% set saved = bool(post_saves.query.filter(post_saves.user_id == current_user.id).filter(post_saves.post_id == post['id']).all()) %}
+
+                {% else %} 
+                    {% set liked = False %}
+                    {% set saved = False %}
+                {% endif %}
 
 
                 <div class="post">
@@ -41,6 +50,19 @@
                             {% endautoescape %}
                         {% endif %}
                     {% endif %}
+                    
+                    <div class="post-stat">
+                        {% if liked %}
+                            <div class="like"><span class="likes-count liked">{{ post_likes.query.filter(post_likes.post_id == post.id).count() }}</span><img class="like-img" src={{ url_for('static', filename="images/Like-heard.svg") }}></div>
+                        {% else %}
+                            <div class="like"><span class="likes-count">{{ post_likes.query.filter(post_likes.post_id == post.id).count() }}</span><img class="like-img" src={{ url_for('static', filename="images/Like-heard-grey.svg") }}></div>
+                        {% endif %}
+                        {% if saved %}
+                            <div class="save"><img class="save-img" src={{ url_for('static', filename='images/star.svg') }}></div>
+                        {% else %}
+                            <div class="save"><img class="save-img" src={{ url_for('static', filename='images/star-grey.svg') }}></div>
+                        {% endif %}
+                    </div>
 
                 </div>
             {% endfor %}
@@ -54,6 +76,14 @@
                 {% set id = str(post['id']) %}
                 {% set title_photo = os.path.join(post_images_folder, id, 'title_photo.jpg') %}
                 {% set title_photo_url = url_for('static', filename='images/posts_photos/' + str(id) + '/title_photo.jpg') %}
+                 
+                {% if current_user.is_authenticated %}
+                    {% set liked = bool(post_likes.query.filter(post_likes.user_id == current_user.id).filter(post_likes.post_id == post['id']).all()) %}
+                    {% set saved = bool(post_saves.query.filter(post_saves.user_id == current_user.id).filter(post_saves.post_id == post['id']).all()) %}
+                {% else %} 
+                    {% set liked = False %}
+                    {% set saved = False %}
+                {% endif %}
 
 
                 <div class="post">
@@ -85,10 +115,23 @@
                             {% endautoescape %}
                         {% endif %}
                     {% endif %}
+                    
+                    <div class="post-stat">
+                        {% if liked %}
+                            <div class="like"><span class="likes-count liked">{{ post_likes.query.filter(post_likes.post_id == post.id).count() }}</span><img class="like-img" src={{ url_for('static', filename="images/Like-heard.svg") }}></div>
+                        {% else %}
+                            <div class="like"><span class="likes-count">{{ post_likes.query.filter(post_likes.post_id == post.id).count() }}</span><img class="like-img" src={{ url_for('static', filename="images/Like-heard-grey.svg") }}></div>
+                        {% endif %}
+                        {% if saved %}
+                            <div class="save"><img class="save-img" src={{ url_for('static', filename='images/star.svg') }}></div>
+                        {% else %}
+                            <div class="save"><img class="save-img" src={{ url_for('static', filename='images/star-grey.svg') }}></div>
+                        {% endif %}
+                    </div>
 
                 </div>
             {% endfor %}
-        </div>
+        </div> 
         
         <div class="posts-column">
             {% for post_id in range(2, len(posts), 3) %}
@@ -98,6 +141,15 @@
                 {% set id = str(post['id']) %}
                 {% set title_photo = os.path.join(post_images_folder, id, 'title_photo.jpg') %}
                 {% set title_photo_url = url_for('static', filename='images/posts_photos/' + str(id) + '/title_photo.jpg') %}
+                 
+                {% if current_user.is_authenticated %}
+                    {% set liked = bool(post_likes.query.filter(post_likes.user_id == current_user.id).filter(post_likes.post_id == post['id']).all()) %}
+                    {% set saved = bool(post_saves.query.filter(post_saves.user_id == current_user.id).filter(post_saves.post_id == post['id']).all()) %}
+
+                {% else %} 
+                    {% set liked = False %}
+                    {% set saved = False %}
+                {% endif %}
 
 
                 <div class="post">
@@ -129,10 +181,23 @@
                             {% endautoescape %}
                         {% endif %}
                     {% endif %}
+                    
+                    <div class="post-stat">
+                        {% if liked %}
+                            <div class="like"><span class="likes-count liked">{{ post_likes.query.filter(post_likes.post_id == post.id).count() }}</span><img class="like-img" src={{ url_for('static', filename="images/Like-heard.svg") }}></div>
+                        {% else %}
+                            <div class="like"><span class="likes-count">{{ post_likes.query.filter(post_likes.post_id == post.id).count() }}</span><img class="like-img" src={{ url_for('static', filename="images/Like-heard-grey.svg") }}></div>
+                        {% endif %}
+                        {% if saved %}
+                            <div class="save"><img class="save-img" src={{ url_for('static', filename='images/star.svg') }}></div>
+                        {% else %}
+                            <div class="save"><img class="save-img" src={{ url_for('static', filename='images/star-grey.svg') }}></div>
+                        {% endif %}
+                    </div>
 
                 </div>
             {% endfor %}
-        </div>
+        </div> 
     
     
    

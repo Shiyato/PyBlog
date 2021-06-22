@@ -8,11 +8,19 @@
                 <h1 class="post-view-header">
                     {{ post.title }}
                 </h1>
-                {% if liked %}
-                    <a class="like" href={{ "/like/post/" + str(post.id) + '/' + str(int(liked)) }}><span class="likes-count liked">{{ table.query.filter(table.post_id == post.id).count() }}</span><img class="like-img" src={{ url_for('static', filename="images/Like-heard.svg") }}></a>
-                {% else %}
-                    <a class="like" href={{ "/like/post/" + str(post.id) + '/' + str(int(liked)) }}><span class="likes-count">{{ table.query.filter(table.post_id == post.id).count() }}</span><img class="like-img" src={{ url_for('static', filename="images/Like-heard-grey.svg") }}></a>
-                {% endif %}
+                
+                <div class="post-page-stat">
+                    {% if liked %}
+                        <a class="like" href={{ "/like/post/" + str(post.id) + '/' + str(int(liked)) }}><span class="likes-count liked">{{ table.query.filter(table.post_id == post.id).count() }}</span><img class="like-img" src={{ url_for('static', filename="images/Like-heard.svg") }}></a>
+                    {% else %}
+                        <a class="like" href={{ "/like/post/" + str(post.id) + '/' + str(int(liked)) }}><span class="likes-count">{{ table.query.filter(table.post_id == post.id).count() }}</span><img class="like-img" src={{ url_for('static', filename="images/Like-heard-grey.svg") }}></a>
+                    {% endif %}
+                    {% if saved %}
+                        <a class="save" href={{ "/save/post/" + str(post.id) + '/' + str(int(saved)) }}><img class="save-img" src={{ url_for('static', filename='images/star.svg') }}></a>
+                    {% else %}
+                        <a class="save"  href={{ "/save/post/" + str(post.id) + '/' + str(int(saved)) }}><img class="save-img" src={{ url_for('static', filename='images/star-grey.svg') }}></a>
+                    {% endif %}
+                </div>
             </div>
             
             {% if post.have_title_image %}

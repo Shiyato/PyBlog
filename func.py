@@ -14,8 +14,6 @@ def justify_text(text:str):
     return '\n'.join(text_strings)
 
 
-
-
 def pic_change_name(before, after):
     photos_path = os.path.abspath('static/images/users_photos')
     before = f'{photos_path}/{before}'
